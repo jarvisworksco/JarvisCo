@@ -106,7 +106,7 @@ export default function CaseStudy() {
           </div>
 
           {/* Iframe viewport */}
-          <div className="relative" style={{ height: "340px", background: "#f0efed" }}>
+          <div className="relative" style={{ height: "520px", background: "#f0efed" }}>
             {/* Live iframe attempt */}
             <iframe
               ref={iframeRef}

@@ -63,10 +63,10 @@ export default function Nav() {
             className="flex items-center gap-2.5 mr-auto md:mr-8 shrink-0"
             aria-label="JarvisCo — grįžti į viršų"
           >
-            <LogoMark size={28} />
+            <LogoMark size={32} />
             <span
-              className="text-[15px] font-bold"
-              style={{ color: "var(--jco-black)", letterSpacing: "-0.3px" }}
+              className="text-[15px] font-bold tracking-tight"
+              style={{ color: "var(--jco-black)", letterSpacing: "-0.4px" }}
             >
               JarvisCo
             </span>

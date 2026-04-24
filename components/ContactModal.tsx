@@ -10,7 +10,6 @@ const plans = [
   { value: "Starter — 350€", label: "Starter — 350€" },
   { value: "Standard — 600€", label: "Standard — 600€" },
   { value: "Premium — 1200€", label: "Premium — 1200€" },
-  { value: "Nežinau dar", label: "Nežinau dar" },
 ];
 
 const initial: InquiryState = { status: "idle" };

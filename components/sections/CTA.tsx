@@ -57,43 +57,29 @@ export default function CTA() {
         {/* Primary action */}
         <button
           onClick={() => openModal()}
-          className="inline-flex items-center justify-center gap-2 text-[16px] font-semibold text-white px-8 py-4 rounded-[4px] transition-all duration-150 active:scale-95 cursor-pointer mb-4 w-full max-w-xs"
+          className="cta-primary inline-flex items-center justify-center gap-2 text-[16px] font-semibold text-white px-8 py-4 rounded-[4px] active:scale-95 cursor-pointer w-full max-w-xs"
           style={{ background: "var(--jco-blue)" }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--jco-blue-hover)"; }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--jco-blue)"; }}
         >
           <MessageSquare size={18} strokeWidth={2} />
           Pradėti projektą
         </button>
 
         {/* Secondary contacts */}
-        <div className="flex flex-col sm:flex-row gap-3 w-full max-w-sm justify-center">
+        <div className="flex flex-col items-center gap-2 w-full">
           <a
             href="mailto:jarvisworks.co@gmail.com"
-            className="inline-flex items-center justify-center gap-2 text-[14px] font-semibold px-4 py-3 rounded-[4px] transition-all duration-150 active:scale-95 whitespace-nowrap"
-            style={{
-              background: "rgba(255,255,255,0.08)",
-              color: "rgba(255,255,255,0.7)",
-              border: "1px solid rgba(255,255,255,0.12)",
-            }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.14)"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.08)"; }}
+            className="inline-flex items-center gap-1.5 text-[14px] font-medium whitespace-nowrap"
+            style={{ color: "rgba(255,255,255,0.45)" }}
           >
-            <Mail size={14} strokeWidth={2} />
+            <Mail size={13} strokeWidth={2} />
             jarvisworks.co@gmail.com
           </a>
           <a
             href="tel:+37067699395"
-            className="inline-flex items-center justify-center gap-2 text-[14px] font-semibold px-4 py-3 rounded-[4px] transition-all duration-150 active:scale-95 whitespace-nowrap"
-            style={{
-              background: "rgba(255,255,255,0.08)",
-              color: "rgba(255,255,255,0.7)",
-              border: "1px solid rgba(255,255,255,0.12)",
-            }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.14)"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.08)"; }}
+            className="inline-flex items-center gap-1.5 text-[14px] font-medium whitespace-nowrap"
+            style={{ color: "rgba(255,255,255,0.45)" }}
           >
-            <Phone size={14} strokeWidth={2} />
+            <Phone size={13} strokeWidth={2} />
             <span className="whitespace-nowrap">+370 676 99395</span>
           </a>
         </div>

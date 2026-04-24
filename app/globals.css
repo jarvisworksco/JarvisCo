@@ -116,6 +116,14 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
+/* ── CTA primary button ── */
+.cta-primary {
+  transition: background 150ms;
+}
+.cta-primary:hover {
+  background: var(--jco-blue-hover) !important;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
