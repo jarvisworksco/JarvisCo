@@ -152,6 +152,14 @@
   background: rgba(255, 255, 255, 0.14) !important;
 }
 
+/* ── Testimonial card hover ── */
+.testimonial-card {
+  transition: box-shadow 200ms;
+}
+.testimonial-card:hover {
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 24px, rgba(0, 0, 0, 0.04) 0px 3px 8px;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
