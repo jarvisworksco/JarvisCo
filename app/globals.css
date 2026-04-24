@@ -1,26 +1,133 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
+
+  /* shadcn compat */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) * 2);
+  --radius-xl: calc(var(--radius) * 3);
+  --radius-2xl: calc(var(--radius) * 4);
+
+  /* JarvisCo design tokens exposed to Tailwind */
+  --color-jco-blue: var(--jco-blue);
+  --color-jco-blue-hover: var(--jco-blue-hover);
+  --color-jco-black: var(--jco-black);
+  --color-jco-warm-white: var(--jco-warm-white);
+  --color-jco-warm-dark: var(--jco-warm-dark);
+  --color-jco-gray-500: var(--jco-gray-500);
+  --color-jco-gray-300: var(--jco-gray-300);
+  --color-jco-badge-bg: var(--jco-badge-bg);
+  --color-jco-badge-text: var(--jco-badge-text);
+  --color-jco-green: var(--jco-green);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  /* ── JarvisCo palette ── */
+  --jco-blue: #0075de;
+  --jco-blue-hover: #005bab;
+  --jco-blue-focus: #097fe8;
+  --jco-black: rgba(0, 0, 0, 0.95);
+  --jco-white: #ffffff;
+  --jco-warm-white: #f6f5f4;
+  --jco-warm-dark: #31302e;
+  --jco-gray-500: #615d59;
+  --jco-gray-300: #a39e98;
+  --jco-badge-bg: #f2f9ff;
+  --jco-badge-text: #097fe8;
+  --jco-green: #1aae39;
+
+  /* ── Shadows ── */
+  --shadow-card:
+    rgba(0, 0, 0, 0.04)  0px 4px  18px,
+    rgba(0, 0, 0, 0.027) 0px 2px   8px,
+    rgba(0, 0, 0, 0.02)  0px 1px   3px,
+    rgba(0, 0, 0, 0.01)  0px 0px   1px;
+  --shadow-deep:
+    rgba(0, 0, 0, 0.01)  0px  1px  3px,
+    rgba(0, 0, 0, 0.02)  0px  3px  7px,
+    rgba(0, 0, 0, 0.02)  0px  7px 15px,
+    rgba(0, 0, 0, 0.04)  0px 14px 28px,
+    rgba(0, 0, 0, 0.05)  0px 23px 52px;
+
+  /* ── shadcn compat vars (mapped to JarvisCo) ── */
+  --background: #ffffff;
+  --foreground: rgba(0, 0, 0, 0.95);
+  --card: #ffffff;
+  --card-foreground: rgba(0, 0, 0, 0.95);
+  --popover: #ffffff;
+  --popover-foreground: rgba(0, 0, 0, 0.95);
+  --primary: #0075de;
+  --primary-foreground: #ffffff;
+  --secondary: rgba(0, 0, 0, 0.05);
+  --secondary-foreground: rgba(0, 0, 0, 0.9);
+  --muted: #f6f5f4;
+  --muted-foreground: #615d59;
+  --accent: #f6f5f4;
+  --accent-foreground: rgba(0, 0, 0, 0.95);
+  --destructive: #dc2626;
+  --border: rgba(0, 0, 0, 0.1);
+  --input: rgba(0, 0, 0, 0.1);
+  --ring: #097fe8;
+  --radius: 4px;
+}
+
+/* ── Marquee animation (tripled content → translate -33.33% for seamless loop) ── */
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.3333%); }
+}
+
+/* ── Fade-up utility (GSAP starting state) ── */
+.gsap-hidden {
+  opacity: 0;
+  transform: translateY(32px);
+}
+
+/* ── Footer link hover ── */
+.footer-link {
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 120ms;
+}
+.footer-link:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    color: var(--jco-black);
+  }
 }
