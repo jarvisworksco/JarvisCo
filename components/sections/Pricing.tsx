@@ -12,7 +12,7 @@ interface Plan {
   name: string;
   price: string;
   recurring: string;
-  delivery: string;
+  tagline: string;
   features: string[];
   cta: string;
   badge?: string;
@@ -24,44 +24,47 @@ const plans: Plan[] = [
     name: "Starter",
     price: "500€",
     recurring: "+ 20€/mėn — hostingas ir priežiūra",
-    delivery: "Pristatymas per 5 d.d.",
+    tagline: "Profesionali vizitinė kortelė internete.",
     cta: "Rinktis Starter",
     features: [
-      "1 puslapis (landing scroll stiliaus)",
-      "Iki 5 turinio sekcijų",
-      "Mobile responsive dizainas",
-      "Google Analytics integracija",
-      "SEO pagrindai (meta, sitemap)",
+      "Klientas randa jus Google'e",
+      "Matosi ką darote ir kaip susisiekti",
+      "Atrodo gerai telefone ir kompiuteryje",
+      "1 puslapis, iki 5 sekcijų",
+      "Pristatymas per 5 d.d.",
     ],
   },
   {
     name: "Standard",
     price: "900€",
     recurring: "+ 30€/mėn — hostingas ir priežiūra",
-    delivery: "Pristatymas per 7–10 d.d.",
+    tagline: "Pilnavertė svetainė su užklausomis tiesiai į telefoną.",
     cta: "Rinktis Standard",
     badge: "Populiariausias",
     featured: true,
     features: [
-      "3–4 puslapių struktūra",
-      "Prieš / po galerija su filtravimu",
-      "Kontaktų forma → email + SMS",
-      "Google Business Profile setup",
       "Viskas iš Starter plano",
+      "Darbų galerija su prieš / po nuotraukomis",
+      "Užklausos forma — gausite el. laišką IR SMS",
+      "Google Business profilio sutvarkymas",
+      "3–4 puslapiai (Paslaugos, Galerija, Kontaktai)",
+      "Pristatymas per 7–10 d.d.",
     ],
   },
   {
     name: "Premium",
     price: "1800€",
     recurring: "+ 50€/mėn — hostingas ir priežiūra",
-    delivery: "Individualus pristatymas",
+    tagline: "Viskas automatizuota — klientas rezervuoja, jūs tiesiog atvykstate.",
     cta: "Rinktis Premium",
+    badge: "Pilnas paketas",
     features: [
       "Viskas iš Standard plano",
-      "Online booking / užklausų sistema",
-      "Blog funkcionalumas",
-      "Multi-location palaikymas",
-      "1 mėn. nemokamo SEO po paleidimo",
+      "Online rezervacija: klientas pats pasirenka laiką",
+      "Blog'as naujienom ir SEO turiniui",
+      "Kelių miestų / filialų palaikymas",
+      "1 mėnuo nemokamo SEO po paleidimo",
+      "Individualus pristatymo terminas",
     ],
   },
 ];
@@ -96,12 +99,15 @@ function PricingCard({ plan }: { plan: Plan }) {
         >
           {plan.price}
         </div>
-        <div className="text-[13px] mb-4" style={{ color: "rgba(255,255,255,0.45)" }}>
+        <div className="text-[13px] mb-1" style={{ color: "rgba(255,255,255,0.45)" }}>
           vienkartinis
         </div>
-        <div className="text-[13px] mb-5" style={{ color: "rgba(255,255,255,0.4)" }}>
+        <div className="text-[13px] mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>
           {plan.recurring}
         </div>
+        <p className="text-[13px] italic mb-5 leading-[1.5]" style={{ color: "rgba(255,255,255,0.5)" }}>
+          {plan.tagline}
+        </p>
         <div className="h-px mb-5" style={{ background: "rgba(255,255,255,0.1)" }} />
         <ul className="flex flex-col gap-2.5 mb-7 flex-1">
           {plan.features.map((f) => (
@@ -111,9 +117,6 @@ function PricingCard({ plan }: { plan: Plan }) {
             </li>
           ))}
         </ul>
-        <div className="text-[12px] mb-5 font-medium" style={{ color: "rgba(255,255,255,0.35)" }}>
-          {plan.delivery}
-        </div>
         <button
           onClick={() => openModal(plan.name)}
           className="block w-full text-center text-[15px] font-semibold text-white py-2.5 rounded-[4px] transition-all duration-150 active:scale-[0.97] cursor-pointer"
@@ -143,12 +146,15 @@ function PricingCard({ plan }: { plan: Plan }) {
       >
         {plan.price}
       </div>
-      <div className="text-[13px] mb-4" style={{ color: "var(--jco-gray-300)" }}>
+      <div className="text-[13px] mb-1" style={{ color: "var(--jco-gray-300)" }}>
         vienkartinis
       </div>
-      <div className="text-[13px] mb-5" style={{ color: "var(--jco-gray-300)" }}>
+      <div className="text-[13px] mb-4" style={{ color: "var(--jco-gray-300)" }}>
         {plan.recurring}
       </div>
+      <p className="text-[13px] italic mb-5 leading-[1.5]" style={{ color: "var(--jco-gray-400, #c8c4bf)" }}>
+        {plan.tagline}
+      </p>
       <div className="h-px mb-5" style={{ background: "rgba(0,0,0,0.08)" }} />
       <ul className="flex flex-col gap-2.5 mb-7 flex-1">
         {plan.features.map((f) => (
@@ -158,9 +164,6 @@ function PricingCard({ plan }: { plan: Plan }) {
           </li>
         ))}
       </ul>
-      <div className="text-[12px] mb-5 font-medium" style={{ color: "var(--jco-gray-300)" }}>
-        {plan.delivery}
-      </div>
       <button
         onClick={() => openModal(plan.name)}
         className="block w-full text-center text-[15px] font-semibold py-2.5 rounded-[4px] transition-all duration-150 active:scale-[0.97] cursor-pointer"

@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Pricing: rewrote all three plan feature lists with benefit-first language for non-technical Lithuanian home-service business owners; added per-plan tagline (italic, muted) displayed under the price; added "Pilnas paketas" badge to Premium; removed standalone delivery line (delivery now inside feature list); prices updated to 500/900/1800€
+
 ### Added
 - Initial project scaffold: `CLAUDE.md`, `PRD.md`, `CHANGELOG.md`
 - Next.js 16 (App Router) + TypeScript + Tailwind CSS v4 project scaffold
