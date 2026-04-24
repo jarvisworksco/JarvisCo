@@ -63,7 +63,7 @@ export default function CTA() {
           onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--jco-blue)"; }}
         >
           <MessageSquare size={18} strokeWidth={2} />
-          Pateikti užklausą
+          Pradėti projektą
         </button>
 
         {/* Secondary contacts */}

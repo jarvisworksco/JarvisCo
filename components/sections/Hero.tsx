@@ -6,7 +6,6 @@ import { useContactModal } from "@/context/contact-modal";
 
 const stats = [
   { label: "Pristatymas", value: "nuo 5 d.d." },
-  { label: "Kalba", value: "100% lietuvių" },
   { label: "Mobile greitis", value: "< 2s load" },
   { label: "Pagrindas", value: "SEO paruošta" },
 ];
@@ -66,9 +65,9 @@ export default function Hero() {
         className="hero-sub mx-auto mb-10 text-[clamp(17px,2vw,20px)] font-semibold leading-[1.4]"
         style={{ color: "var(--jco-gray-500)", maxWidth: "560px", letterSpacing: "-0.125px" }}
       >
-        Kuriame greitas, gražias ir efektyvias svetaines paslaugoms į namus
-        Lietuvoje — santechnikams, elektrikams, meistrams, valytojams.
-        Daugiau užklausų, mažiau rūpesčių.
+        Kuriame greitas, gražias ir efektyvias svetaines paslaugų į namus
+        verslams Lietuvoje — santechnikams, elektrikams, meistrams,
+        valytojams. Daugiau užklausų, mažiau rūpesčių.
       </p>
 
       {/* CTAs */}
@@ -100,7 +99,7 @@ export default function Hero() {
 
       {/* Stats row */}
       <div
-        className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-px mx-auto max-w-2xl"
+        className="mt-14 grid grid-cols-3 gap-px mx-auto max-w-xl"
         style={{
           border: "1px solid rgba(0,0,0,0.08)",
           borderRadius: "12px",
