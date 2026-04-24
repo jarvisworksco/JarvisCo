@@ -22,8 +22,8 @@ interface Plan {
 const plans: Plan[] = [
   {
     name: "Starter",
-    price: "350€",
-    recurring: "+ 15€/mėn — hostingas ir priežiūra",
+    price: "500€",
+    recurring: "+ 20€/mėn — hostingas ir priežiūra",
     delivery: "Pristatymas per 5 d.d.",
     cta: "Rinktis Starter",
     features: [
@@ -36,8 +36,8 @@ const plans: Plan[] = [
   },
   {
     name: "Standard",
-    price: "600€",
-    recurring: "+ 20€/mėn — hostingas ir priežiūra",
+    price: "900€",
+    recurring: "+ 30€/mėn — hostingas ir priežiūra",
     delivery: "Pristatymas per 7–10 d.d.",
     cta: "Rinktis Standard",
     badge: "Populiariausias",
@@ -52,8 +52,8 @@ const plans: Plan[] = [
   },
   {
     name: "Premium",
-    price: "1200€",
-    recurring: "+ 30€/mėn — hostingas ir priežiūra",
+    price: "1800€",
+    recurring: "+ 50€/mėn — hostingas ir priežiūra",
     delivery: "Individualus pristatymas",
     cta: "Rinktis Premium",
     features: [

@@ -8,10 +8,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const deliverables = [
-  "1–2 puslapių struktūra",
+  "1 puslapis (landing scroll stiliaus)",
+  "Iki 5 turinio sekcijų",
   "Mobiliai pritaikytas dizainas",
   "Kontaktų forma → email",
-  "Google Business Profile setup",
   "SEO pagrindai (meta, sitemap)",
 ];
 
