@@ -8,9 +8,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const deliverables = [
-  "3–4 puslapių struktūra",
+  "1–2 puslapių struktūra",
   "Mobiliai pritaikytas dizainas",
-  "Kontaktų forma → email + SMS",
+  "Kontaktų forma → email",
   "Google Business Profile setup",
   "SEO pagrindai (meta, sitemap)",
 ];
@@ -175,7 +175,7 @@ export default function CaseStudy() {
                   className="text-[12px] font-semibold px-2.5 py-1 rounded-full"
                   style={{ background: "var(--jco-badge-bg)", color: "var(--jco-badge-text)" }}
                 >
-                  Standard planas
+                  Starter planas
                 </span>
                 <span className="text-[12px] font-medium" style={{ color: "var(--jco-gray-300)" }}>
                   · Arboristai
@@ -188,8 +188,8 @@ export default function CaseStudy() {
                 Arbcut
               </h3>
               <p className="text-[14px] leading-[1.6] mb-4" style={{ color: "var(--jco-gray-500)" }}>
-                Profesionalių arboristų svetainė su galimybe susisiekti
-                telefonu ir pateikti užklausą. Sukurta per 8 darbo dienas.
+                Profesionalių arboristų landing page su kontaktų forma ir
+                vietine SEO optimizacija. Sukurta per 5 darbo dienas.
               </p>
               <a
                 href="https://arbcut.lt"

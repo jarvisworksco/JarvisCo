@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { LogoMark } from "@/components/LogoMark";
 
 const navLinks = [
   { label: "Paslaugos", href: "#paslaugos" },
@@ -22,13 +22,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="flex-shrink-0 max-w-[220px]">
             <div className="flex items-center gap-2 mb-3">
-              <Image
-                src="/logo.png"
-                alt="JarvisCo logo"
-                width={28}
-                height={28}
-                className="rounded-[6px]"
-              />
+              <LogoMark size={32} />
               <span className="text-[15px] font-bold text-white">
                 JarvisCo
               </span>
