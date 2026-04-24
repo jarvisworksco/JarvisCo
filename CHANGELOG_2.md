@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- `components/sections/Testimonials.tsx`: 6-card testimonials section between Process and Pricing; 2-col desktop grid, warm-white background, white cards with italic Lithuanian-quote-mark quotes, colored avatar circles, CSS hover shadow — pure server component
+- `components/sections/Testimonials.tsx`: 6-card testimonials section
+- Pricing: AI chatbot add-on note on Standard card (small italic muted, „+ AI pokalbių robotas — 400€ priedas"); AI chatbot as included feature on Premium plan; Premium price updated 1800€ → 2200€; PRD_1.md updated to match between Process and Pricing; 2-col desktop grid, warm-white background, white cards with italic Lithuanian-quote-mark quotes, colored avatar circles, CSS hover shadow — pure server component
 
 ### Changed
 - Pricing: rewrote all three plan feature lists with benefit-first language for non-technical Lithuanian home-service business owners; added per-plan tagline (italic, muted) displayed under the price; added "Pilnas paketas" badge to Premium; removed standalone delivery line (delivery now inside feature list); prices updated to 500/900/1800€

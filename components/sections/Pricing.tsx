@@ -14,6 +14,7 @@ interface Plan {
   recurring: string;
   tagline: string;
   features: string[];
+  addonNote?: string;
   cta: string;
   badge?: string;
   featured?: boolean;
@@ -39,6 +40,7 @@ const plans: Plan[] = [
     price: "900€",
     recurring: "+ 30€/mėn — hostingas ir priežiūra",
     tagline: "Pilnavertė svetainė su užklausomis tiesiai į telefoną.",
+    addonNote: '„+ AI pokalbių robotas — 400€ priedas"',
     cta: "Rinktis Standard",
     badge: "Populiariausias",
     featured: true,
@@ -53,13 +55,14 @@ const plans: Plan[] = [
   },
   {
     name: "Premium",
-    price: "1800€",
+    price: "2200€",
     recurring: "+ 50€/mėn — hostingas ir priežiūra",
     tagline: "Viskas automatizuota — klientas rezervuoja, jūs tiesiog atvykstate.",
     cta: "Rinktis Premium",
     badge: "Pilnas paketas",
     features: [
       "Viskas iš Standard plano",
+      "AI pokalbių robotas (įskaičiuota)",
       "Online rezervacija: klientas pats pasirenka laiką",
       "Blog'as naujienom ir SEO turiniui",
       "Kelių miestų / filialų palaikymas",
@@ -109,7 +112,7 @@ function PricingCard({ plan }: { plan: Plan }) {
           {plan.tagline}
         </p>
         <div className="h-px mb-5" style={{ background: "rgba(255,255,255,0.1)" }} />
-        <ul className="flex flex-col gap-2.5 mb-7 flex-1">
+        <ul className="flex flex-col gap-2.5 mb-4 flex-1">
           {plan.features.map((f) => (
             <li key={f} className="flex items-start gap-2 text-[14px]" style={{ color: "rgba(255,255,255,0.7)" }}>
               <Check size={15} className="mt-0.5 shrink-0" style={{ color: "#62aef0" }} strokeWidth={2.5} />
@@ -117,6 +120,11 @@ function PricingCard({ plan }: { plan: Plan }) {
             </li>
           ))}
         </ul>
+        {plan.addonNote && (
+          <p className="text-[12px] italic mb-5" style={{ color: "rgba(255,255,255,0.35)" }}>
+            {plan.addonNote}
+          </p>
+        )}
         <button
           onClick={() => openModal(plan.name)}
           className="block w-full text-center text-[15px] font-semibold text-white py-2.5 rounded-[4px] transition-all duration-150 active:scale-[0.97] cursor-pointer"
@@ -156,7 +164,7 @@ function PricingCard({ plan }: { plan: Plan }) {
         {plan.tagline}
       </p>
       <div className="h-px mb-5" style={{ background: "rgba(0,0,0,0.08)" }} />
-      <ul className="flex flex-col gap-2.5 mb-7 flex-1">
+      <ul className="flex flex-col gap-2.5 mb-4 flex-1">
         {plan.features.map((f) => (
           <li key={f} className="flex items-start gap-2 text-[14px]" style={{ color: "var(--jco-gray-500)" }}>
             <Check size={15} className="mt-0.5 shrink-0" style={{ color: "var(--jco-blue)" }} strokeWidth={2.5} />
@@ -164,6 +172,11 @@ function PricingCard({ plan }: { plan: Plan }) {
           </li>
         ))}
       </ul>
+      {plan.addonNote && (
+        <p className="text-[12px] italic mb-5" style={{ color: "var(--jco-gray-300)" }}>
+          {plan.addonNote}
+        </p>
+      )}
       <button
         onClick={() => openModal(plan.name)}
         className="block w-full text-center text-[15px] font-semibold py-2.5 rounded-[4px] transition-all duration-150 active:scale-[0.97] cursor-pointer"

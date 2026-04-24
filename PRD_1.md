@@ -125,27 +125,29 @@ Intro: "Kiekviena svetainė — su hostingu ir priežiūra. Be paslėptų mokes�
 
 #### STANDARD (featured / most popular)
 - Badge: "Populiariausias"
-- Price: **600€** vienkartinis
-- Recurring: **+ 20€/mėn** — hostingas ir priežiūra
+- Price: **900€** vienkartinis
+- Recurring: **+ 30€/mėn** — hostingas ir priežiūra
 - Features:
-  - 3–4 puslapių struktūra
-  - Prieš / po galerija su filtravimu
-  - Kontaktų forma → email + SMS
-  - Google Business Profile setup
   - Viskas iš Starter plano
-- Delivery note: "Pristatymas per 7–10 d.d."
+  - Darbų galerija su prieš / po nuotraukomis
+  - Užklausos forma — gausite el. laišką IR SMS
+  - Google Business profilio sutvarkymas
+  - 3–4 puslapiai (Paslaugos, Galerija, Kontaktai)
+  - Pristatymas per 7–10 d.d.
+- Add-on note (small italic): „+ AI pokalbių robotas — 400€ priedas"
 - CTA: **Rinktis Standard**
 
 #### PREMIUM
-- Price: **1200€** vienkartinis
-- Recurring: **+ 30€/mėn** — hostingas ir priežiūra
+- Price: **2200€** vienkartinis
+- Recurring: **+ 50€/mėn** — hostingas ir priežiūra
 - Features:
   - Viskas iš Standard plano
-  - Online booking / užklausų sistema
-  - Blog funkcionalumas
-  - Multi-location palaikymas
-  - 1 mėn. nemokamo SEO po paleidimo
-- Delivery note: "Individualus pristatymas"
+  - AI pokalbių robotas (įskaičiuota)
+  - Online rezervacija: klientas pats pasirenka laiką
+  - Blog'as naujienom ir SEO turiniui
+  - Kelių miestų / filialų palaikymas
+  - 1 mėnuo nemokamo SEO po paleidimo
+  - Individualus pristatymo terminas
 - CTA: **Rinktis Premium**
 
 All three plan CTAs scroll to the contact section and (optionally) pre-fill a subject line like "Užklausa: Standard planas".
