@@ -11,6 +11,9 @@ export async function sendInquiry(
   _prev: InquiryState,
   formData: FormData
 ): Promise<InquiryState> {
+  const honeypot = (formData.get("website") as string)?.trim();
+  if (honeypot) return { status: "success" }; // silently discard bot submission
+
   const name = (formData.get("name") as string)?.trim();
   const email = (formData.get("email") as string)?.trim();
   const phone = (formData.get("phone") as string)?.trim();

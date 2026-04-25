@@ -7,9 +7,9 @@ import { sendInquiry, type InquiryState } from "@/app/actions";
 
 const plans = [
   { value: "", label: "Pasirinkite planą (neprivaloma)" },
-  { value: "Starter — 350€", label: "Starter — 350€" },
-  { value: "Standard — 600€", label: "Standard — 600€" },
-  { value: "Premium — 1200€", label: "Premium — 1200€" },
+  { value: "Starter — 500€", label: "Starter — 500€" },
+  { value: "Standard — 900€", label: "Standard — 900€" },
+  { value: "Premium — 2200€", label: "Premium — 2200€" },
 ];
 
 const initial: InquiryState = { status: "idle" };
@@ -112,6 +112,15 @@ export default function ContactModal() {
         ) : (
           /* Form */
           <form action={action} className="px-6 py-5 flex flex-col gap-4">
+            {/* Honeypot — bots fill this, humans don't */}
+            <input
+              name="website"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0 }}
+            />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label
