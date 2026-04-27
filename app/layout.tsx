@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ContactModalProvider } from "@/context/contact-modal";
 import ContactModal from "@/components/ContactModal";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
@@ -58,6 +59,7 @@ export default function RootLayout({
           {children}
           <ContactModal />
         </ContactModalProvider>
+        <Analytics />
       </body>
     </html>
   );
