@@ -32,15 +32,6 @@ export default function Nav() {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  const scrollTo = (href: string) => {
-    setOpen(false);
-    const el = document.querySelector(href);
-    if (el) {
-      const y = el.getBoundingClientRect().top + window.scrollY - 72;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  };
-
   return (
     <>
       <nav
@@ -63,16 +54,15 @@ export default function Nav() {
           {/* Wordmark */}
           <a
             href="#"
-            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
             aria-label="JarvisCo — grįžti į viršų"
             style={{ marginRight: "auto", display: "flex", alignItems: "center", gap: "0.5rem" }}
           >
             <span style={{
-              fontFamily: "var(--ff-lora, var(--font-display))",
+              fontFamily: "var(--ff-lora, serif)",
               fontWeight: 700,
-              fontSize: "1.25rem",
+              fontSize: "1.625rem",
               color: "var(--ink)",
-              letterSpacing: "-0.03em",
+              letterSpacing: "-0.04em",
             }}>
               Jarvis<span style={{ color: "var(--accent)" }}>Co</span>
             </span>
@@ -81,21 +71,20 @@ export default function Nav() {
           {/* Desktop links */}
           <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }} className="desktop-nav">
             {links.map((l) => (
-              <button
+              <a
                 key={l.href}
-                onClick={() => scrollTo(l.href)}
+                href={l.href}
                 className="nav-link"
-                style={{ background: "none", border: "none", padding: "0.3rem 0.75rem" }}
+                style={{ padding: "0.3rem 0.75rem" }}
               >
                 {l.label}
-              </button>
+              </a>
             ))}
           </div>
 
           {/* CTA */}
           <a
             href="#kontaktai"
-            onClick={(e) => { e.preventDefault(); scrollTo("#kontaktai"); }}
             className="btn btn-primary desktop-nav"
             style={{ marginLeft: "1.5rem", fontSize: "0.875rem", padding: "0.6rem 1.25rem" }}
           >
@@ -146,29 +135,29 @@ export default function Nav() {
           gap: "0.25rem", padding: "0 var(--pad) 4rem",
         }}>
           {links.map((l) => (
-            <button
+            <a
               key={l.href}
-              onClick={() => scrollTo(l.href)}
+              href={l.href}
+              onClick={() => setOpen(false)}
               style={{
-                background: "none", border: "none",
                 fontFamily: "var(--ff-lora, serif)",
                 fontSize: "clamp(1.5rem, 5vw, 2.25rem)",
                 fontWeight: 600,
                 color: "var(--ink)",
                 letterSpacing: "-0.02em",
                 padding: "0.5rem 1rem",
-                cursor: "pointer",
+                textDecoration: "none",
                 transition: "color 0.2s",
               }}
               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--accent)"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--ink)"; }}
             >
               {l.label}
-            </button>
+            </a>
           ))}
           <a
             href="#kontaktai"
-            onClick={(e) => { e.preventDefault(); scrollTo("#kontaktai"); }}
+            onClick={() => setOpen(false)}
             className="btn btn-primary"
             style={{ marginTop: "2rem", fontSize: "1rem", padding: "0.875rem 2.5rem" }}
           >

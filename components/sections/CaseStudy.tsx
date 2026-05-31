@@ -151,16 +151,18 @@ export default function Portfolio() {
                   </div>
                 </div>
 
-                <iframe
-                  src={p.url}
-                  title={`${p.client} svetainė`}
-                  style={{
-                    flex: 1, border: "none",
-                    width: "100%", minHeight: "380px",
-                    opacity: 0.95,
-                  }}
-                  loading="lazy"
-                />
+                <div style={{ flex: 1, overflow: "hidden" }} data-lenis-prevent>
+                  <iframe
+                    src={p.url}
+                    title={`${p.client} svetainė`}
+                    style={{
+                      border: "none",
+                      width: "100%", height: "100%", minHeight: "380px",
+                      opacity: 0.95, display: "block",
+                    }}
+                    loading="lazy"
+                  />
+                </div>
               </div>
             </div>
           </div>

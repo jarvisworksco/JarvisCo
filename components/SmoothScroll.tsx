@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,91 +8,83 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 1.5,
-    });
-
-    lenis.on("scroll", () => ScrollTrigger.update());
-
-    const raf = (time: number) => {
-      lenis.raf(time);
-      ScrollTrigger.update();
-    };
-    gsap.ticker.add(raf);
-    gsap.ticker.lagSmoothing(0);
-
-    // Scroll progress bar
+    // ── Scroll progress bar ───────────────────────────────────────────────
     const progressEl = document.getElementById("scroll-progress");
     const updateProgress = () => {
       if (!progressEl) return;
-      const scrolled = window.scrollY;
       const total = document.documentElement.scrollHeight - window.innerHeight;
-      progressEl.style.transform = `scaleX(${scrolled / total})`;
+      progressEl.style.transform = `scaleX(${window.scrollY / total})`;
     };
     window.addEventListener("scroll", updateProgress, { passive: true });
 
-    // Cursor
-    const dot = document.getElementById("cursor-dot");
+    // ── Hash-link: smooth scroll, no URL change ───────────────────────────
+    const handleHashClick = (e: MouseEvent) => {
+      const anchor = (e.target as HTMLElement).closest("a");
+      if (!anchor) return;
+      const href = anchor.getAttribute("href");
+      if (!href || !href.startsWith("#")) return;
+      e.preventDefault();
+      if (href === "#") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+      const target = document.querySelector(href);
+      if (target) {
+        const y = (target as HTMLElement).getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    };
+    document.addEventListener("click", handleHashClick);
+
+    // ── Custom cursor ─────────────────────────────────────────────────────
+    const dot  = document.getElementById("cursor-dot");
     const ring = document.getElementById("cursor-ring");
-    let mouseX = 0, mouseY = 0;
-    let ringX = 0, ringY = 0;
+    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0, rafId = 0;
 
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      if (dot) {
-        dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-      }
-      if (e.clientX >= window.innerWidth - 16) {
-        if (dot) dot.style.opacity = "0";
-        if (ring) ring.style.opacity = "0";
-      } else {
-        if (dot) dot.style.opacity = "1";
-        if (ring) ring.style.opacity = "1";
-      }
+      if (dot) dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+      const nearScrollbar = e.clientX > document.documentElement.clientWidth;
+      if (dot)  dot.style.opacity = nearScrollbar ? "0" : "1";
+      if (ring) ring.style.opacity = nearScrollbar ? "0" : "1";
     };
 
-    let rafId: number;
     const animateRing = () => {
       ringX += (mouseX - ringX) * 0.12;
       ringY += (mouseY - ringY) * 0.12;
       if (ring) ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
       rafId = requestAnimationFrame(animateRing);
     };
-    animateRing();
+    rafId = requestAnimationFrame(animateRing);
 
-    const onEnter = () => ring?.classList.add("expanded");
-    const onLeave = () => ring?.classList.remove("expanded");
-
-    window.addEventListener("mousemove", onMove);
+    const expandRing   = () => ring?.classList.add("expanded");
+    const collapseRing = () => ring?.classList.remove("expanded");
+    window.addEventListener("mousemove", onMove, { passive: true });
     document.querySelectorAll("a, button, [data-magnetic]").forEach((el) => {
-      el.addEventListener("mouseenter", onEnter);
-      el.addEventListener("mouseleave", onLeave);
+      el.addEventListener("mouseenter", expandRing);
+      el.addEventListener("mouseleave", collapseRing);
     });
 
-    // Reveal on scroll (IntersectionObserver)
-    const revealEls = document.querySelectorAll(".reveal, .reveal-left");
+    // ── Scroll reveal (IntersectionObserver) ──────────────────────────────
+    const revealEls = document.querySelectorAll<HTMLElement>(".reveal, .reveal-left");
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const el = entry.target as HTMLElement;
-            const delay = el.dataset.delay ?? "0";
-            setTimeout(() => el.classList.add("visible"), parseFloat(delay) * 1000);
-            observer.unobserve(el);
-          }
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const delay = parseFloat(el.dataset.delay ?? "0") * 1000;
+          setTimeout(() => el.classList.add("visible"), delay);
+          observer.unobserve(el);
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -5% 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -4% 0px" }
     );
     revealEls.forEach((el) => observer.observe(el));
 
     return () => {
-      lenis.destroy();
-      gsap.ticker.remove(raf);
       window.removeEventListener("scroll", updateProgress);
+      document.removeEventListener("click", handleHashClick);
       window.removeEventListener("mousemove", onMove);
       cancelAnimationFrame(rafId);
       observer.disconnect();

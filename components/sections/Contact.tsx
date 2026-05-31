@@ -159,6 +159,7 @@ export default function Contact() {
                     placeholder="Trumpai apie savo verslą ir ko norėtumėte..."
                     className="form-input"
                     style={{ resize: "none" }}
+                    data-lenis-prevent
                   />
                 </div>
 
