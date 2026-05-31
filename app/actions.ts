@@ -12,7 +12,7 @@ export async function sendInquiry(
   formData: FormData
 ): Promise<InquiryState> {
   const honeypot = (formData.get("website") as string)?.trim();
-  if (honeypot) return { status: "success" }; // silently discard bot submission
+  if (honeypot) return { status: "success" };
 
   const name = (formData.get("name") as string)?.trim();
   const email = (formData.get("email") as string)?.trim();
@@ -28,7 +28,6 @@ export async function sendInquiry(
   const gmailPass = process.env.GMAIL_APP_PASSWORD;
 
   if (!gmailUser || !gmailPass) {
-    // Dev fallback: log to console
     console.log("📧 [DEV] New inquiry:", { name, email, phone, plan, message });
     return { status: "success" };
   }
@@ -65,8 +64,7 @@ export async function sendInquiry(
     console.error("Email error:", err);
     return {
       status: "error",
-      message:
-        "Nepavyko išsiųsti. Rašykite tiesiogiai: jarvisworks.co@gmail.com",
+      message: "Nepavyko išsiųsti. Rašykite tiesiogiai: jarvisworks.co@gmail.com",
     };
   }
 }

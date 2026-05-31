@@ -2,29 +2,27 @@
 
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { LogoMark } from "@/components/LogoMark";
-import { useContactModal } from "@/context/contact-modal";
 
 const links = [
   { label: "Paslaugos", href: "#paslaugos" },
-  { label: "Procesas", href: "#procesas" },
-  { label: "Kainos", href: "#kainos" },
-  { label: "D.U.K.", href: "#duk" },
+  { label: "Procesas",  href: "#procesas"  },
+  { label: "Darbai",   href: "#darbai"    },
+  { label: "Kainos",   href: "#kainos"    },
+  { label: "D.U.K.",   href: "#duk"       },
 ];
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { open: openModal } = useContactModal();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    const onResize = () => { if (window.innerWidth >= 768) setOpen(false); };
+    const onResize = () => { if (window.innerWidth >= 900) setOpen(false); };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
@@ -38,7 +36,7 @@ export default function Nav() {
     setOpen(false);
     const el = document.querySelector(href);
     if (el) {
-      const y = el.getBoundingClientRect().top + window.scrollY - 64;
+      const y = el.getBoundingClientRect().top + window.scrollY - 72;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
@@ -46,114 +44,145 @@ export default function Nav() {
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50 h-14 flex items-center transition-all duration-200"
+        aria-label="Pagrindinis meniu"
         style={{
-          background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.95)",
-          backdropFilter: "blur(10px)",
-          borderBottom: scrolled
-            ? "1px solid rgba(0,0,0,0.09)"
-            : "1px solid rgba(0,0,0,0.04)",
-          boxShadow: scrolled ? "rgba(0,0,0,0.04) 0px 2px 10px" : "none",
+          position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
+          height: "68px",
+          display: "flex", alignItems: "center",
+          transition: "background 0.3s, border-color 0.3s, box-shadow 0.3s",
+          background: scrolled
+            ? "color-mix(in oklab, var(--bg) 88%, transparent)"
+            : "transparent",
+          backdropFilter: scrolled ? "blur(16px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(16px)" : "none",
+          borderBottom: scrolled ? "1px solid var(--line)" : "1px solid transparent",
+          boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.25)" : "none",
         }}
       >
-        <div className="max-w-[1100px] mx-auto px-6 md:px-8 w-full flex items-center">
-          {/* Logo */}
+        <div className="container" style={{ display: "flex", alignItems: "center" }}>
+          {/* Wordmark */}
           <a
             href="#"
-            className="flex items-center gap-2.5 mr-auto md:mr-8 shrink-0"
+            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
             aria-label="JarvisCo — grįžti į viršų"
+            style={{ marginRight: "auto", display: "flex", alignItems: "center", gap: "0.5rem" }}
           >
-            <LogoMark size={32} />
-            <span
-              className="text-[15px] font-bold tracking-tight"
-              style={{ color: "var(--jco-black)", letterSpacing: "-0.4px" }}
-            >
-              JarvisCo
+            <span style={{
+              fontFamily: "var(--ff-lora, var(--font-display))",
+              fontWeight: 700,
+              fontSize: "1.25rem",
+              color: "var(--ink)",
+              letterSpacing: "-0.03em",
+            }}>
+              Jarvis<span style={{ color: "var(--accent)" }}>Co</span>
             </span>
           </a>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-0.5 flex-1">
+          <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }} className="desktop-nav">
             {links.map((l) => (
               <button
                 key={l.href}
                 onClick={() => scrollTo(l.href)}
-                className="text-[14px] font-medium px-2.5 py-1.5 rounded-[5px] transition-all duration-150 cursor-pointer"
-                style={{ color: "rgba(0,0,0,0.55)" }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "rgba(0,0,0,0.9)";
-                  e.currentTarget.style.background = "rgba(0,0,0,0.04)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "rgba(0,0,0,0.55)";
-                  e.currentTarget.style.background = "transparent";
-                }}
+                className="nav-link"
+                style={{ background: "none", border: "none", padding: "0.3rem 0.75rem" }}
               >
                 {l.label}
               </button>
             ))}
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-2 ml-4">
-            <button
-              onClick={() => openModal()}
-              className="text-[14px] font-semibold text-white px-4 py-2 rounded-[4px] transition-all duration-150 active:scale-95 cursor-pointer"
-              style={{ background: "var(--jco-blue)" }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = "var(--jco-blue-hover)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = "var(--jco-blue)"; }}
-            >
-              Pradėti projektą
-            </button>
-          </div>
+          {/* CTA */}
+          <a
+            href="#kontaktai"
+            onClick={(e) => { e.preventDefault(); scrollTo("#kontaktai"); }}
+            className="btn btn-primary desktop-nav"
+            style={{ marginLeft: "1.5rem", fontSize: "0.875rem", padding: "0.6rem 1.25rem" }}
+          >
+            Pradėti projektą
+          </a>
 
-          {/* Mobile hamburger */}
+          {/* Hamburger */}
           <button
-            className="md:hidden p-2 ml-2 rounded-[5px]"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Uždaryti meniu" : "Atidaryti meniu"}
             aria-expanded={open}
+            className="mobile-nav-btn"
+            style={{
+              display: "none",
+              width: "40px", height: "40px",
+              alignItems: "center", justifyContent: "center",
+              borderRadius: "var(--r-sm)",
+              border: "1px solid var(--line)",
+              color: "var(--ink)",
+              marginLeft: "0.75rem",
+              transition: "background 0.2s",
+            }}
           >
-            {open
-              ? <X size={20} style={{ color: "var(--jco-black)" }} />
-              : <Menu size={20} style={{ color: "var(--jco-black)" }} />}
+            {open ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </nav>
 
       {/* Mobile overlay */}
       <div
-        className="fixed inset-0 z-40 flex flex-col md:hidden transition-all duration-250"
+        aria-hidden={!open}
         style={{
-          background: "rgba(255,255,255,0.98)",
-          backdropFilter: "blur(12px)",
+          position: "fixed", inset: 0, zIndex: 40,
+          display: "flex", flexDirection: "column",
+          background: "color-mix(in oklab, var(--bg) 96%, transparent)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
           pointerEvents: open ? "auto" : "none",
           opacity: open ? 1 : 0,
           transform: open ? "translateY(0)" : "translateY(-8px)",
+          transition: "opacity 0.25s var(--ease), transform 0.25s var(--ease)",
         }}
-        aria-hidden={!open}
       >
-        <div className="h-14" />
-        <div className="flex flex-col items-center justify-center flex-1 gap-1.5 px-6 pb-16">
+        <div style={{ height: "68px" }} />
+        <div style={{
+          flex: 1, display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center",
+          gap: "0.25rem", padding: "0 var(--pad) 4rem",
+        }}>
           {links.map((l) => (
             <button
               key={l.href}
               onClick={() => scrollTo(l.href)}
-              className="w-full max-w-xs text-center text-[20px] font-semibold py-3 rounded-xl cursor-pointer"
-              style={{ color: "var(--jco-black)" }}
+              style={{
+                background: "none", border: "none",
+                fontFamily: "var(--ff-lora, serif)",
+                fontSize: "clamp(1.5rem, 5vw, 2.25rem)",
+                fontWeight: 600,
+                color: "var(--ink)",
+                letterSpacing: "-0.02em",
+                padding: "0.5rem 1rem",
+                cursor: "pointer",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--accent)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--ink)"; }}
             >
               {l.label}
             </button>
           ))}
-          <button
-            onClick={() => { setOpen(false); openModal(); }}
-            className="mt-6 w-full max-w-xs text-center text-[16px] font-semibold text-white py-3.5 rounded-[4px] active:scale-95 cursor-pointer"
-            style={{ background: "var(--jco-blue)" }}
+          <a
+            href="#kontaktai"
+            onClick={(e) => { e.preventDefault(); scrollTo("#kontaktai"); }}
+            className="btn btn-primary"
+            style={{ marginTop: "2rem", fontSize: "1rem", padding: "0.875rem 2.5rem" }}
           >
             Pradėti projektą
-          </button>
+          </a>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 899px) {
+          .desktop-nav { display: none !important; }
+          .mobile-nav-btn { display: flex !important; }
+        }
+      `}</style>
     </>
   );
 }

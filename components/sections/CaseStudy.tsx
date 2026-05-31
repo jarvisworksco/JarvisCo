@@ -1,224 +1,177 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Check, Globe } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
-
-const deliverables = [
-  "1 puslapis (landing scroll stiliaus)",
-  "Iki 5 turinio sekcijų",
-  "Mobiliai pritaikytas dizainas",
-  "Kontaktų forma → email",
-  "SEO pagrindai (meta, sitemap)",
+const projects = [
+  {
+    client: "Arbcut.lt",
+    category: "Svetainių kūrimas · Starter planas",
+    headline: "Arboristo svetainė, kuri pasirodė Google per 2 savaites.",
+    description:
+      "Arbcut — sertifikuotas arboristas iš Vilniaus. Prieš projektą: Facebook puslapis ir burnos žodis. Po projekto: profesionali svetainė su SEO pagrindais, kontaktų forma ir mobilia versija.",
+    deliverables: [
+      "1 puslapis (landing scroll stiliaus)",
+      "Iki 5 turinio sekcijų",
+      "Mobiliai pritaikytas dizainas",
+      "Kontaktų forma → el. laiškas",
+      "SEO pagrindai (meta, sitemap)",
+    ],
+    url: "https://arbcut.lt",
+    tag: "Starter — 500€",
+  },
 ];
 
-export default function CaseStudy() {
-  const ref = useRef<HTMLElement>(null);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [iframeOk, setIframeOk] = useState<boolean | null>(null); // null = loading
-
-  // Detect if iframe was blocked: after onLoad fires, try accessing contentDocument.
-  // Cross-origin sites that allow embedding fire onLoad normally.
-  // Sites that block via X-Frame-Options also fire onLoad (with an about:blank or
-  // error page). We use a 2s timeout: if onLoad hasn't fired → blocked.
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (iframeOk === null) setIframeOk(false);
-    }, 4000);
-    return () => clearTimeout(timer);
-  }, [iframeOk]);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".cs-header", {
-        y: 32, opacity: 0, duration: 0.65, ease: "power2.out",
-        scrollTrigger: { trigger: ".cs-header", start: "top 85%" },
-      });
-      gsap.from(".cs-card", {
-        y: 40, opacity: 0, duration: 0.7, ease: "power2.out",
-        scrollTrigger: { trigger: ".cs-card", start: "top 82%" },
-      });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
+export default function Portfolio() {
   return (
-    <section
-      ref={ref}
-      className="py-[88px] px-6 md:px-8"
-      style={{ background: "var(--jco-warm-white)" }}
-      aria-labelledby="casestudy-heading"
-    >
-      <div className="max-w-[1100px] mx-auto">
+    <section id="darbai" style={{ padding: "var(--section-py) 0" }}>
+      <div className="container">
         {/* Header */}
-        <div className="cs-header text-center max-w-[640px] mx-auto mb-14">
-          <div
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-semibold tracking-[0.125px] mb-4"
-            style={{ background: "var(--jco-badge-bg)", color: "var(--jco-badge-text)" }}
-          >
-            Darbo pavyzdys
-          </div>
-          <h2
-            id="casestudy-heading"
-            className="text-[clamp(32px,4vw,48px)] font-bold leading-[1.0] mb-4"
-            style={{
-              letterSpacing: "clamp(-0.8px,-0.031em,-1.5px)",
-              color: "var(--jco-black)",
-              fontFeatureSettings: '"lnum","locl"',
-            }}
-          >
-            Pavyzdys iš{" "}
-            <span style={{ color: "var(--jco-blue)" }}>realaus projekto.</span>
+        <div className="reveal" style={{ marginBottom: "clamp(3rem, 6vw, 5rem)" }}>
+          <div className="sec-label">Darbai</div>
+          <h2 style={{
+            fontFamily: "var(--ff-lora, serif)",
+            fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
+            color: "var(--ink)",
+            marginBottom: "1rem",
+            maxWidth: "18ch",
+          }}>
+            Realūs projektai,{" "}
+            <em style={{ fontStyle: "italic", color: "var(--accent)" }}>realūs rezultatai</em>.
           </h2>
-          <p className="text-[17px] leading-[1.55]" style={{ color: "var(--jco-gray-500)" }}>
-            Kiekviena svetainė — konkreti, greita, pritaikyta būtent tai paslaugai.
+          <p style={{ fontSize: "1.0625rem", color: "var(--ink-soft)", lineHeight: 1.65, maxWidth: "52ch" }}>
+            Kiekvienas projektas — unikali svetainė, ne šablonas. Daugėja darbų — daugės ir čia.
           </p>
         </div>
 
-        {/* Card */}
-        <div
-          className="cs-card bg-white rounded-[16px] overflow-hidden max-w-[900px] mx-auto"
-          style={{ border: "1px solid rgba(0,0,0,0.1)", boxShadow: "var(--shadow-deep)" }}
-        >
-          {/* Browser chrome */}
+        {projects.map((p) => (
           <div
-            className="px-4 py-2.5 flex items-center gap-3 shrink-0"
-            style={{
-              background: "#f0efed",
-              borderBottom: "1px solid rgba(0,0,0,0.1)",
-            }}
+            key={p.client}
+            className="card reveal"
+            style={{ overflow: "hidden" }}
           >
-            <div className="flex gap-1.5">
-              <span className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
-              <span className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
-              <span className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
-            </div>
-            <div
-              className="flex-1 flex items-center justify-center gap-1.5 text-[12px] font-medium px-3 py-1 rounded-[5px] max-w-[200px] mx-auto"
-              style={{ background: "rgba(0,0,0,0.08)", color: "var(--jco-gray-500)" }}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 0,
+            }}
+              className="portfolio-grid"
             >
-              <Globe size={11} strokeWidth={2} />
-              arbcut.lt
-            </div>
-          </div>
+              {/* Info side */}
+              <div style={{ padding: "clamp(1.75rem, 4vw, 3rem)" }}>
+                <div style={{
+                  display: "inline-block",
+                  padding: "0.3rem 0.875rem",
+                  borderRadius: "var(--r-full)",
+                  background: "var(--accent-soft)",
+                  border: "1px solid color-mix(in oklab, var(--accent) 25%, transparent)",
+                  fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.06em",
+                  textTransform: "uppercase", color: "var(--accent)",
+                  marginBottom: "1.5rem",
+                }}>
+                  {p.tag}
+                </div>
 
-          {/* Iframe viewport */}
-          <div className="relative" style={{ height: "520px", background: "#f0efed" }}>
-            {/* Live iframe attempt */}
-            <iframe
-              ref={iframeRef}
-              src="https://arbcut.lt"
-              title="Arbcut.lt svetainė"
-              className="absolute inset-0 w-full h-full border-0"
-              style={{ display: iframeOk === false ? "none" : "block" }}
-              onLoad={() => setIframeOk(true)}
-              sandbox="allow-scripts allow-same-origin allow-forms"
-            />
+                <h3 style={{
+                  fontFamily: "var(--ff-lora, serif)",
+                  fontSize: "clamp(1.25rem, 2.5vw, 1.625rem)",
+                  color: "var(--ink)",
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.2,
+                  marginBottom: "1rem",
+                }}>
+                  {p.headline}
+                </h3>
 
-            {/* Fallback mock (shown while loading or if iframe blocked) */}
-            {iframeOk !== true && (
-              <div
-                className="absolute inset-0 flex flex-col"
-                style={{ background: "#0d1b2e" }}
-              >
-                {/* Mock nav */}
-                <div
-                  className="flex items-center px-8 py-3 gap-6 shrink-0"
-                  style={{ background: "rgba(255,255,255,0.04)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+                <p style={{
+                  fontSize: "0.9375rem", color: "var(--ink-soft)",
+                  lineHeight: 1.65, marginBottom: "1.75rem",
+                }}>
+                  {p.description}
+                </p>
+
+                <div style={{ borderTop: "1px solid var(--line)", paddingTop: "1.5rem", marginBottom: "1.75rem" }}>
+                  <p style={{
+                    fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.08em",
+                    textTransform: "uppercase", color: "var(--ink-muted)",
+                    marginBottom: "0.875rem",
+                  }}>
+                    Kas įskaičiuota
+                  </p>
+                  <ul style={{ display: "flex", flexDirection: "column", gap: "0.5rem", listStyle: "none" }}>
+                    {p.deliverables.map((d) => (
+                      <li key={d} style={{
+                        display: "flex", alignItems: "flex-start", gap: "0.625rem",
+                        fontSize: "0.875rem", color: "var(--ink-soft)",
+                      }}>
+                        <span style={{ color: "var(--accent)", flexShrink: 0 }}>✓</span>
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-ghost"
+                  style={{ fontSize: "0.875rem" }}
                 >
-                  <div className="w-24 h-3 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }} />
-                  <div className="flex gap-4 ml-auto">
-                    {[60, 48, 56].map((w, i) => (
-                      <div key={i} className="h-2 rounded-full" style={{ width: w, background: "rgba(255,255,255,0.2)" }} />
+                  Žiūrėti svetainę
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                </a>
+              </div>
+
+              {/* Preview side */}
+              <div style={{
+                background: "var(--surface-2)",
+                borderLeft: "1px solid var(--line)",
+                position: "relative",
+                minHeight: "420px",
+                display: "flex",
+                flexDirection: "column",
+              }}>
+                {/* Browser chrome */}
+                <div style={{
+                  padding: "0.75rem 1rem",
+                  borderBottom: "1px solid var(--line)",
+                  display: "flex", alignItems: "center", gap: "0.5rem",
+                  flexShrink: 0,
+                }}>
+                  <div style={{ display: "flex", gap: "0.4rem" }}>
+                    {["#ff5f57", "#febc2e", "#28c840"].map((c) => (
+                      <div key={c} style={{ width: "10px", height: "10px", borderRadius: "50%", background: c }} />
                     ))}
                   </div>
-                  <div className="w-20 h-7 rounded-[3px]" style={{ background: "#0075de" }} />
-                </div>
-                {/* Mock hero */}
-                <div className="flex-1 flex flex-col items-center justify-center gap-4 px-8 text-center">
-                  <div className="w-72 h-5 rounded-full" style={{ background: "rgba(255,255,255,0.65)" }} />
-                  <div className="w-52 h-3 rounded-full" style={{ background: "rgba(255,255,255,0.3)" }} />
-                  <div className="w-48 h-3 rounded-full" style={{ background: "rgba(255,255,255,0.2)" }} />
-                  <div className="flex gap-3 mt-2">
-                    <div className="h-9 w-28 rounded-[4px]" style={{ background: "#0075de" }} />
-                    <div className="h-9 w-28 rounded-[4px]" style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.18)" }} />
+                  <div style={{
+                    flex: 1, marginLeft: "0.5rem",
+                    background: "var(--surface)",
+                    border: "1px solid var(--line)",
+                    borderRadius: "var(--r-xs)",
+                    padding: "0.25rem 0.75rem",
+                    fontSize: "0.75rem", color: "var(--ink-muted)",
+                  }}>
+                    {p.url.replace("https://", "")}
                   </div>
                 </div>
-                {/* Mock feature strip */}
-                <div
-                  className="flex justify-center gap-8 px-8 py-4 shrink-0"
-                  style={{ background: "rgba(255,255,255,0.03)", borderTop: "1px solid rgba(255,255,255,0.06)" }}
-                >
-                  {[80, 64, 72, 68].map((w, i) => (
-                    <div key={i} className="h-2 rounded-full" style={{ width: w, background: "rgba(255,255,255,0.15)" }} />
-                  ))}
-                </div>
-                {iframeOk === null && (
-                  <div className="absolute inset-0 flex items-end justify-center pb-4">
-                    <span className="text-[11px] font-medium px-2 py-1 rounded-full" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}>
-                      Jungiamasi prie arbcut.lt…
-                    </span>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
 
-          {/* Info row */}
-          <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <span
-                  className="text-[12px] font-semibold px-2.5 py-1 rounded-full"
-                  style={{ background: "var(--jco-badge-bg)", color: "var(--jco-badge-text)" }}
-                >
-                  Starter planas
-                </span>
-                <span className="text-[12px] font-medium" style={{ color: "var(--jco-gray-300)" }}>
-                  · Arboristai
-                </span>
+                <iframe
+                  src={p.url}
+                  title={`${p.client} svetainė`}
+                  style={{
+                    flex: 1, border: "none",
+                    width: "100%", minHeight: "380px",
+                    opacity: 0.95,
+                  }}
+                  loading="lazy"
+                />
               </div>
-              <h3
-                className="text-[22px] font-bold mb-1"
-                style={{ color: "var(--jco-black)", letterSpacing: "-0.3px" }}
-              >
-                Arbcut
-              </h3>
-              <p className="text-[14px] leading-[1.6] mb-4" style={{ color: "var(--jco-gray-500)" }}>
-                Profesionalių arboristų landing page su kontaktų forma ir
-                vietine SEO optimizacija. Sukurta per 5 darbo dienas.
-              </p>
-              <a
-                href="https://arbcut.lt"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-[14px] font-semibold"
-                style={{ color: "var(--jco-blue)" }}
-              >
-                Peržiūrėti svetainę
-                <ArrowUpRight size={14} strokeWidth={2.5} />
-              </a>
-            </div>
-
-            <div>
-              <p className="text-[12px] font-semibold tracking-[0.05em] mb-3" style={{ color: "var(--jco-gray-300)" }}>
-                KĄ ĮDIEGĖME
-              </p>
-              <ul className="flex flex-col gap-2">
-                {deliverables.map((d) => (
-                  <li key={d} className="flex items-center gap-2 text-[14px]" style={{ color: "var(--jco-gray-500)" }}>
-                    <Check size={14} strokeWidth={2.5} style={{ color: "var(--jco-blue)", flexShrink: 0 }} />
-                    {d}
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
-        </div>
+        ))}
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .portfolio-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </section>
   );
 }

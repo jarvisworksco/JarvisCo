@@ -1,122 +1,110 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
-
 const steps = [
   {
-    num: "1",
+    n: "01",
     title: "Pokalbis",
-    body: "Nemokamas 20 min skambutis. Suprantu, ką darote, kam, ir ko reikia svetainei.",
+    desc: "Nemokamas 20 minučių skambutis. Suprantu jūsų verslą, tikslinę auditoriją ir ko reikia svetainei. Jokių įpareigojimų.",
   },
   {
-    num: "2",
-    title: "Planas",
-    body: "Gaunate aiškų pasiūlymą: struktūra, terminai, kaina. Jokių paslėptų mokesčių.",
+    n: "02",
+    title: "Pasiūlymas",
+    desc: 'Gaunate aiškų pasiūlymą: struktūra, terminai, kaina. Jokių paslėptų mokesčių, jokių „papildomų darbų" vėliau.',
   },
   {
-    num: "3",
+    n: "03",
     title: "Kūrimas",
-    body: "Kuriu pagal aprobuotą dizainą. Siunčiu peržiūrą — jūs komentuojate, aš taisau.",
+    desc: "Kuriu pagal aprobuotą dizainą. Siunčiu peržiūras — jūs komentuojate, aš taisau. Dirbame kartu, kol esate patenkinti.",
   },
   {
-    num: "4",
+    n: "04",
     title: "Paleidimas",
-    body: "Svetainė — live. Toliau rūpinuosi hostingu ir priežiūra, kad viskas veiktų sklandžiai.",
+    desc: "Svetainė — live. Toliau rūpinuosi hostingu ir priežiūra, kad viskas veiktų sklandžiai. Jūs daryti tai, ką išmanote geriausiai.",
   },
 ];
 
 export default function Process() {
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".proc-header", {
-        y: 32,
-        opacity: 0,
-        duration: 0.65,
-        ease: "power2.out",
-        scrollTrigger: { trigger: ".proc-header", start: "top 85%" },
-      });
-      gsap.from(".proc-step", {
-        y: 40,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.14,
-        ease: "power2.out",
-        scrollTrigger: { trigger: ".proc-grid", start: "top 82%" },
-      });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
   return (
     <section
       id="procesas"
-      ref={ref}
-      className="py-[88px] px-6 md:px-8"
-      style={{ background: "var(--jco-warm-white)" }}
-      aria-labelledby="procesas-heading"
+      style={{
+        padding: "var(--section-py) 0",
+        background: "var(--surface)",
+        borderTop: "1px solid var(--line)",
+        borderBottom: "1px solid var(--line)",
+      }}
     >
-      <div className="max-w-[1100px] mx-auto">
+      <div className="container">
         {/* Header */}
-        <div className="proc-header text-center max-w-[640px] mx-auto mb-14">
-          <div
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-semibold tracking-[0.125px] mb-4"
-            style={{
-              background: "var(--jco-badge-bg)",
-              color: "var(--jco-badge-text)",
-            }}
-          >
-            Procesas
-          </div>
-          <h2
-            id="procesas-heading"
-            className="text-[clamp(32px,4vw,48px)] font-bold leading-[1.0] mb-4"
-            style={{
-              letterSpacing: "clamp(-0.8px,-0.031em,-1.5px)",
-              color: "var(--jco-black)",
-              fontFeatureSettings: '"lnum","locl"',
-            }}
-          >
-            Nuo pokalbio iki{" "}
-            <span style={{ color: "var(--jco-blue)" }}>starto</span> — be
-            streso.
+        <div className="reveal" style={{ textAlign: "center", maxWidth: "600px", margin: "0 auto clamp(3rem, 6vw, 5rem)" }}>
+          <div className="sec-label" style={{ justifyContent: "center" }}>Procesas</div>
+          <h2 style={{
+            fontFamily: "var(--ff-lora, serif)",
+            fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
+            color: "var(--ink)",
+            marginBottom: "1rem",
+          }}>
+            Nuo pokalbio iki <em style={{ fontStyle: "italic", color: "var(--accent)" }}>starto</em> — be streso.
           </h2>
-          <p
-            className="text-[17px] leading-[1.55]"
-            style={{ color: "var(--jco-gray-500)" }}
-          >
-            Paprastas, aiškus procesas be techninių galvos skausmų jūsų
-            pusėje.
+          <p style={{ fontSize: "1.0625rem", color: "var(--ink-soft)", lineHeight: 1.65 }}>
+            Paprasta, aiški eiga — žinote kiekvieną žingsnį iš anksto.
           </p>
         </div>
 
-        {/* Steps */}
-        <div className="proc-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 relative">
-          {steps.map(({ num, title, body }) => (
-            <div key={num} className="proc-step text-center">
-              <div
-                className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-4 text-[15px] font-bold text-white"
-                style={{ background: "var(--jco-black)" }}
-              >
-                {num}
+        {/* Steps grid */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))",
+          gap: "1.5rem",
+          position: "relative",
+        }}>
+          {steps.map((s, i) => (
+            <div
+              key={s.n}
+              className="reveal"
+              data-delay={String(i * 0.1)}
+              style={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "0.25rem" }}
+            >
+              {/* Number circle */}
+              <div style={{
+                width: "52px", height: "52px",
+                borderRadius: "50%",
+                border: "1.5px solid var(--accent)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                background: "var(--accent-soft)",
+              }}>
+                <span style={{
+                  fontFamily: "var(--ff-lora, serif)",
+                  fontSize: "1rem", fontWeight: 700,
+                  color: "var(--accent)",
+                }}>
+                  {s.n}
+                </span>
               </div>
-              <h3
-                className="text-[16px] font-bold mb-2"
-                style={{ color: "var(--jco-black)" }}
-              >
-                {title}
+
+              <h3 style={{
+                fontFamily: "var(--ff-lora, serif)",
+                fontSize: "1.25rem",
+                color: "var(--ink)",
+                letterSpacing: "-0.01em",
+              }}>
+                {s.title}
               </h3>
-              <p
-                className="text-[14px] leading-[1.55]"
-                style={{ color: "var(--jco-gray-500)" }}
-              >
-                {body}
+
+              <p style={{ fontSize: "0.9375rem", color: "var(--ink-soft)", lineHeight: 1.65 }}>
+                {s.desc}
               </p>
+
+              {/* Connector */}
+              {i < steps.length - 1 && (
+                <div style={{
+                  position: "absolute",
+                  top: "26px",
+                  left: `calc(${(i + 1) * 25}% - 0.75rem)`,
+                  width: "calc(25% - 1.5rem)",
+                  height: "1.5px",
+                  background: "linear-gradient(to right, var(--accent), color-mix(in oklab, var(--accent) 30%, transparent))",
+                  display: "none",
+                }} />
+              )}
             </div>
           ))}
         </div>

@@ -1,32 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { Check } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useContactModal } from "@/context/contact-modal";
-
-gsap.registerPlugin(ScrollTrigger);
-
-interface Plan {
-  name: string;
-  price: string;
-  recurring: string;
-  tagline: string;
-  features: string[];
-  addonNote?: string;
-  cta: string;
-  badge?: string;
-  featured?: boolean;
-}
-
-const plans: Plan[] = [
+const plans = [
   {
     name: "Starter",
     price: "500€",
-    recurring: "+ 20€/mėn — hostingas ir priežiūra",
+    monthly: "+ 20€/mėn",
     tagline: "Profesionali vizitinė kortelė internete.",
-    cta: "Rinktis Starter",
     features: [
       "Klientas randa jus Google'e",
       "Matosi ką darote ir kaip susisiekti",
@@ -34,16 +13,16 @@ const plans: Plan[] = [
       "1 puslapis, iki 5 sekcijų",
       "Pristatymas per 5 d.d.",
     ],
+    cta: "Rinktis Starter",
+    featured: false,
+    badge: null,
+    accentColor: "var(--ink-soft)",
   },
   {
     name: "Standard",
     price: "900€",
-    recurring: "+ 30€/mėn — hostingas ir priežiūra",
+    monthly: "+ 30€/mėn",
     tagline: "Pilnavertė svetainė su užklausomis tiesiai į telefoną.",
-    addonNote: '„+ AI pokalbių robotas — 400€ priedas"',
-    cta: "Rinktis Standard",
-    badge: "Populiariausias",
-    featured: true,
     features: [
       "Viskas iš Starter plano",
       "Darbų galerija su prieš / po nuotraukomis",
@@ -52,14 +31,17 @@ const plans: Plan[] = [
       "3–4 puslapiai (Paslaugos, Galerija, Kontaktai)",
       "Pristatymas per 7–10 d.d.",
     ],
+    addonNote: '+ AI pokalbių robotas — 400€ priedas',
+    cta: "Rinktis Standard",
+    featured: true,
+    badge: "Populiariausias",
+    accentColor: "var(--accent)",
   },
   {
     name: "Premium",
     price: "2200€",
-    recurring: "+ 50€/mėn — hostingas ir priežiūra",
+    monthly: "+ 50€/mėn",
     tagline: "Viskas automatizuota — klientas rezervuoja, jūs tiesiog atvykstate.",
-    cta: "Rinktis Premium",
-    badge: "Pilnas paketas",
     features: [
       "Viskas iš Standard plano",
       "AI pokalbių robotas (įskaičiuota)",
@@ -69,68 +51,95 @@ const plans: Plan[] = [
       "1 mėnuo nemokamo SEO po paleidimo",
       "Individualus pristatymo terminas",
     ],
+    cta: "Rinktis Premium",
+    featured: false,
+    badge: "Pilnas paketas",
+    accentColor: "var(--accent-2)",
   },
 ];
 
-function PricingCard({ plan }: { plan: Plan }) {
-  const { open: openModal } = useContactModal();
+function PlanCard({ plan }: { plan: typeof plans[0] }) {
+  const scrollToContact = () => {
+    const el = document.querySelector("#kontaktai");
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: "smooth" });
+  };
 
   if (plan.featured) {
     return (
       <div
-        className="pricing-card rounded-[16px] p-8 flex flex-col relative"
         style={{
-          background: "var(--jco-black)",
-          border: "1px solid rgba(0,0,0,0.9)",
-          boxShadow: "var(--shadow-deep)",
+          background: "var(--ink)",
+          borderRadius: "var(--r)",
+          padding: "2rem",
+          display: "flex",
+          flexDirection: "column",
+          position: "relative",
+          overflow: "hidden",
+          boxShadow: "0 0 0 1px rgba(255,255,255,0.1), 0 24px 64px rgba(77,123,254,0.15)",
         }}
       >
+        {/* Glow */}
+        <div style={{
+          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+          width: "120%", height: "180px",
+          background: "radial-gradient(ellipse at top, color-mix(in oklab, var(--accent) 20%, transparent), transparent 70%)",
+          pointerEvents: "none",
+        }} />
+
         {plan.badge && (
-          <div
-            className="inline-flex self-start items-center px-3 py-1 rounded-full text-[12px] font-semibold tracking-[0.125px] mb-3"
-            style={{ background: "rgba(255,255,255,0.12)", color: "#62aef0" }}
-          >
+          <div style={{
+            alignSelf: "flex-start",
+            padding: "0.3rem 0.875rem",
+            borderRadius: "var(--r-full)",
+            background: "var(--accent)",
+            fontSize: "0.6875rem", fontWeight: 700, letterSpacing: "0.08em",
+            textTransform: "uppercase", color: "#fff",
+            marginBottom: "1.25rem",
+          }}>
             {plan.badge}
           </div>
         )}
-        <div className="text-[15px] font-bold mb-1.5" style={{ color: "#fff" }}>
-          {plan.name}
-        </div>
-        <div
-          className="text-[40px] font-bold mb-1"
-          style={{ color: "#fff", letterSpacing: "-1px", lineHeight: 1.0 }}
-        >
+
+        <div style={{ fontSize: "0.875rem", fontWeight: 700, color: "#0a1020", marginBottom: "0.5rem" }}>{plan.name}</div>
+        <div style={{
+          fontFamily: "var(--ff-lora, serif)",
+          fontSize: "clamp(2rem, 4vw, 2.75rem)",
+          fontWeight: 700, color: "#07090f",
+          letterSpacing: "-0.03em", lineHeight: 1,
+          marginBottom: "0.375rem",
+        }}>
           {plan.price}
         </div>
-        <div className="text-[13px] mb-1" style={{ color: "rgba(255,255,255,0.45)" }}>
-          vienkartinis
-        </div>
-        <div className="text-[13px] mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>
-          {plan.recurring}
-        </div>
-        <p className="text-[13px] italic mb-5 leading-[1.5]" style={{ color: "rgba(255,255,255,0.5)" }}>
-          {plan.tagline}
-        </p>
-        <div className="h-px mb-5" style={{ background: "rgba(255,255,255,0.1)" }} />
-        <ul className="flex flex-col gap-2.5 mb-4 flex-1">
+        <div style={{ fontSize: "0.8125rem", color: "#3a4a60", marginBottom: "0.25rem" }}>vienkartinis</div>
+        <div style={{ fontSize: "0.8125rem", color: "#4a5a78", marginBottom: "1rem" }}>{plan.monthly} — hostingas ir priežiūra</div>
+        <p style={{ fontSize: "0.875rem", fontStyle: "italic", color: "#3a4a60", marginBottom: "1.25rem", lineHeight: 1.55 }}>{plan.tagline}</p>
+        <div style={{ height: "1px", background: "rgba(0,0,0,0.1)", marginBottom: "1.25rem" }} />
+
+        <ul style={{ display: "flex", flexDirection: "column", gap: "0.625rem", marginBottom: "1.25rem", flex: 1, listStyle: "none" }}>
           {plan.features.map((f) => (
-            <li key={f} className="flex items-start gap-2 text-[14px]" style={{ color: "rgba(255,255,255,0.7)" }}>
-              <Check size={15} className="mt-0.5 shrink-0" style={{ color: "#62aef0" }} strokeWidth={2.5} />
+            <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: "0.625rem", fontSize: "0.875rem", color: "#1a2a40" }}>
+              <span style={{ color: "var(--accent)", flexShrink: 0, fontWeight: 700 }}>✓</span>
               {f}
             </li>
           ))}
         </ul>
-        {plan.addonNote && (
-          <p className="text-[12px] italic mb-5" style={{ color: "rgba(255,255,255,0.35)" }}>
-            {plan.addonNote}
+
+        {'addonNote' in plan && plan.addonNote && (
+          <p style={{ fontSize: "0.75rem", fontStyle: "italic", color: "#5a6a80", marginBottom: "1.25rem" }}>
+            „{plan.addonNote}"
           </p>
         )}
+
         <button
-          onClick={() => openModal(plan.name)}
-          className="block w-full text-center text-[15px] font-semibold text-white py-2.5 rounded-[4px] transition-all duration-150 active:scale-[0.97] cursor-pointer"
-          style={{ background: "var(--jco-blue)" }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--jco-blue-hover)"; }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--jco-blue)"; }}
+          onClick={scrollToContact}
+          className="btn"
+          style={{
+            background: "var(--accent)", color: "#fff",
+            border: "none", justifyContent: "center",
+            fontSize: "0.9375rem", padding: "0.8125rem",
+          }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
         >
           {plan.cta}
         </button>
@@ -140,49 +149,62 @@ function PricingCard({ plan }: { plan: Plan }) {
 
   return (
     <div
-      className="pricing-card bg-white rounded-[16px] p-8 flex flex-col transition-shadow duration-200"
-      style={{ border: "1px solid rgba(0,0,0,0.1)", boxShadow: "var(--shadow-card)" }}
-      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "rgba(0,0,0,0.08) 0px 8px 24px, rgba(0,0,0,0.04) 0px 3px 8px"; }}
-      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "var(--shadow-card)"; }}
+      className="card"
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLElement).style.borderColor = "var(--line-strong)";
+        (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
+        (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 40px rgba(0,0,0,0.3)";
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLElement).style.borderColor = "var(--line)";
+        (e.currentTarget as HTMLElement).style.transform = "";
+        (e.currentTarget as HTMLElement).style.boxShadow = "";
+      }}
+      style={{ padding: "2rem", display: "flex", flexDirection: "column", transition: "border-color 0.25s, transform 0.3s var(--ease), box-shadow 0.25s" }}
     >
-      <div className="text-[15px] font-bold mb-1.5" style={{ color: "var(--jco-black)" }}>
-        {plan.name}
-      </div>
-      <div
-        className="text-[40px] font-bold mb-1"
-        style={{ color: "var(--jco-black)", letterSpacing: "-1px", lineHeight: 1.0 }}
-      >
+      {plan.badge && (
+        <div style={{
+          alignSelf: "flex-start",
+          padding: "0.3rem 0.875rem",
+          borderRadius: "var(--r-full)",
+          background: `color-mix(in oklab, ${plan.accentColor} 12%, transparent)`,
+          border: `1px solid color-mix(in oklab, ${plan.accentColor} 25%, transparent)`,
+          fontSize: "0.6875rem", fontWeight: 700, letterSpacing: "0.08em",
+          textTransform: "uppercase", color: plan.accentColor,
+          marginBottom: "1.25rem",
+        }}>
+          {plan.badge}
+        </div>
+      )}
+
+      <div style={{ fontSize: "0.875rem", fontWeight: 700, color: "var(--ink-soft)", marginBottom: "0.5rem" }}>{plan.name}</div>
+      <div style={{
+        fontFamily: "var(--ff-lora, serif)",
+        fontSize: "clamp(2rem, 4vw, 2.75rem)",
+        fontWeight: 700, color: "var(--ink)",
+        letterSpacing: "-0.03em", lineHeight: 1,
+        marginBottom: "0.375rem",
+      }}>
         {plan.price}
       </div>
-      <div className="text-[13px] mb-1" style={{ color: "var(--jco-gray-300)" }}>
-        vienkartinis
-      </div>
-      <div className="text-[13px] mb-4" style={{ color: "var(--jco-gray-300)" }}>
-        {plan.recurring}
-      </div>
-      <p className="text-[13px] italic mb-5 leading-[1.5]" style={{ color: "var(--jco-gray-400, #c8c4bf)" }}>
-        {plan.tagline}
-      </p>
-      <div className="h-px mb-5" style={{ background: "rgba(0,0,0,0.08)" }} />
-      <ul className="flex flex-col gap-2.5 mb-4 flex-1">
+      <div style={{ fontSize: "0.8125rem", color: "var(--ink-muted)", marginBottom: "0.25rem" }}>vienkartinis</div>
+      <div style={{ fontSize: "0.8125rem", color: "var(--ink-muted)", marginBottom: "1rem" }}>{plan.monthly} — hostingas ir priežiūra</div>
+      <p style={{ fontSize: "0.875rem", fontStyle: "italic", color: "var(--ink-muted)", marginBottom: "1.25rem", lineHeight: 1.55 }}>{plan.tagline}</p>
+      <div style={{ height: "1px", background: "var(--line)", marginBottom: "1.25rem" }} />
+
+      <ul style={{ display: "flex", flexDirection: "column", gap: "0.625rem", marginBottom: "1.25rem", flex: 1, listStyle: "none" }}>
         {plan.features.map((f) => (
-          <li key={f} className="flex items-start gap-2 text-[14px]" style={{ color: "var(--jco-gray-500)" }}>
-            <Check size={15} className="mt-0.5 shrink-0" style={{ color: "var(--jco-blue)" }} strokeWidth={2.5} />
+          <li key={f} style={{ display: "flex", alignItems: "flex-start", gap: "0.625rem", fontSize: "0.875rem", color: "var(--ink-soft)" }}>
+            <span style={{ color: "var(--accent)", flexShrink: 0 }}>✓</span>
             {f}
           </li>
         ))}
       </ul>
-      {plan.addonNote && (
-        <p className="text-[12px] italic mb-5" style={{ color: "var(--jco-gray-300)" }}>
-          {plan.addonNote}
-        </p>
-      )}
+
       <button
-        onClick={() => openModal(plan.name)}
-        className="block w-full text-center text-[15px] font-semibold py-2.5 rounded-[4px] transition-all duration-150 active:scale-[0.97] cursor-pointer"
-        style={{ background: "rgba(0,0,0,0.05)", color: "rgba(0,0,0,0.85)" }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.09)"; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.05)"; }}
+        onClick={scrollToContact}
+        className="btn btn-ghost"
+        style={{ justifyContent: "center", fontSize: "0.9375rem", padding: "0.8125rem" }}
       >
         {plan.cta}
       </button>
@@ -191,62 +213,44 @@ function PricingCard({ plan }: { plan: Plan }) {
 }
 
 export default function Pricing() {
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".price-header", {
-        y: 32, opacity: 0, duration: 0.65, ease: "power2.out",
-        scrollTrigger: { trigger: ".price-header", start: "top 85%" },
-      });
-      gsap.from(".pricing-card", {
-        y: 48, opacity: 0, duration: 0.65, stagger: 0.12, ease: "power2.out",
-        scrollTrigger: { trigger: ".pricing-grid", start: "top 82%" },
-      });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section
-      id="kainos"
-      ref={ref}
-      className="py-[88px] px-6 md:px-8 bg-white"
-      aria-labelledby="kainos-heading"
-    >
-      <div className="max-w-[1100px] mx-auto">
-        <div className="price-header text-center max-w-[640px] mx-auto mb-14">
-          <div
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-semibold tracking-[0.125px] mb-4"
-            style={{ background: "var(--jco-badge-bg)", color: "var(--jco-badge-text)" }}
-          >
-            Kainos
-          </div>
-          <h2
-            id="kainos-heading"
-            className="text-[clamp(32px,4vw,48px)] font-bold leading-[1.0] mb-4"
-            style={{
-              letterSpacing: "clamp(-0.8px,-0.031em,-1.5px)",
-              color: "var(--jco-black)",
-              fontFeatureSettings: '"lnum","locl"',
-            }}
-          >
+    <section id="kainos" style={{ padding: "var(--section-py) 0" }}>
+      <div className="container">
+        <div className="reveal" style={{ textAlign: "center", maxWidth: "600px", margin: "0 auto clamp(3rem, 6vw, 5rem)" }}>
+          <div className="sec-label" style={{ justifyContent: "center" }}>Kainos</div>
+          <h2 style={{
+            fontFamily: "var(--ff-lora, serif)",
+            fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
+            color: "var(--ink)", marginBottom: "1rem",
+          }}>
             Trys planai. Viena{" "}
-            <span style={{ color: "var(--jco-blue)" }}>aiški</span> kaina.
+            <em style={{ fontStyle: "italic", color: "var(--accent)" }}>aiški</em> kaina.
           </h2>
-          <p className="text-[17px] leading-[1.55]" style={{ color: "var(--jco-gray-500)" }}>
-            Kiekviena svetainė — su hostingu ir priežiūra. Be paslėptų
-            mokesčių, be &bdquo;papildomų darbų&ldquo;, be nereikalingų
-            staigmenų sąskaitoje.
+          <p style={{ fontSize: "1.0625rem", color: "var(--ink-soft)", lineHeight: 1.65 }}>
+            Kiekviena svetainė su hostingu ir priežiūra. Be paslėptų mokesčių, be „papildomų darbų".
           </p>
         </div>
 
-        <div className="pricing-grid grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[900px] mx-auto">
-          {plans.map((plan) => (
-            <PricingCard key={plan.name} plan={plan} />
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "1.25rem",
+          alignItems: "start",
+        }}
+          className="pricing-grid"
+        >
+          {plans.map((plan, i) => (
+            <div key={plan.name} className="reveal" data-delay={String(i * 0.1)}>
+              <PlanCard plan={plan} />
+            </div>
           ))}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 900px) { .pricing-grid { grid-template-columns: 1fr !important; } }
+        @media (min-width: 600px) and (max-width: 900px) { .pricing-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+      `}</style>
     </section>
   );
 }

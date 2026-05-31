@@ -1,63 +1,86 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Lora } from "next/font/google";
 import "./globals.css";
-import { ContactModalProvider } from "@/context/contact-modal";
-import ContactModal from "@/components/ContactModal";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-inter",
+  variable: "--ff-inter",
   display: "swap",
 });
 
+const lora = Lora({
+  subsets: ["latin", "latin-ext"],
+  variable: "--ff-lora",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+});
+
 export const metadata: Metadata = {
-  title: "JarvisCo — Svetainės namų paslaugų verslui Lietuvoje",
+  title: "JarvisCo — Svetainės ir SEO namų paslaugų verslui Lietuvoje",
   description:
-    "Projektuojame ir kuriame aukštos kokybės svetaines Lietuvos namų paslaugų verslui. Daugiau skambučių, daugiau užklausų, aiškesnis prekės ženklas. Nuo 350€.",
-  metadataBase: new URL("https://jarvisco.lt"),
+    "Kuriame profesionalias svetaines ir vykdome SEO optimizaciją santechnikams, elektrikams, meistrams ir kitiems namų paslaugų verslams visoje Lietuvoje. Daugiau skambučių, daugiau klientų.",
+  keywords:
+    "svetainių kūrimas, SEO optimizacija, namų paslaugų verslas, Kaunas, Lietuva, santechnikas svetainė, elektriko svetainė",
+  authors: [{ name: "JarvisCo" }],
+  metadataBase: new URL("https://jarvisweb.lt"),
   alternates: { canonical: "/" },
   openGraph: {
-    title: "JarvisCo — Svetainės namų paslaugų verslui Lietuvoje",
-    description:
-      "Projektuojame ir kuriame aukštos kokybės svetaines Lietuvos namų paslaugų verslui. Nuo 350€.",
-    locale: "lt_LT",
     type: "website",
+    locale: "lt_LT",
+    url: "https://jarvisweb.lt",
+    siteName: "JarvisCo",
+    title: "JarvisCo — Svetainės ir SEO namų paslaugų verslui",
+    description:
+      "Profesionalios svetainės ir SEO optimizacija Lietuvos namų paslaugų verslams. Daugiau skambučių iš Google.",
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "JarvisCo — Svetainės ir SEO namų paslaugų verslui",
+    description:
+      "Profesionalios svetainės ir SEO Lietuvos namų paslaugų verslams.",
   },
   robots: { index: true, follow: true },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": "ProfessionalService",
   name: "JarvisCo",
   description:
-    "Web development specializing in websites for home service businesses in Lithuania.",
-  email: "jarvisworks.co@gmail.com",
+    "Svetainių kūrimas ir SEO optimizacija namų paslaugų verslams Lietuvoje.",
+  url: "https://jarvisweb.lt",
   telephone: "+37067699395",
-  areaServed: "LT",
-  url: "https://jarvisco.lt",
+  email: "jarvisworks.co@gmail.com",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Kaunas",
+    addressCountry: "LT",
+  },
+  areaServed: { "@type": "Country", name: "Lithuania" },
+  serviceType: [
+    "Svetainių kūrimas",
+    "SEO optimizacija",
+    "Google verslo profilio optimizavimas",
+  ],
+  sameAs: [
+    "https://www.facebook.com/profile.php?id=61562921045681",
+    "https://www.instagram.com/jarvisworks_co/",
+  ],
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="lt" className={inter.variable}>
+    <html lang="lt" className={`${inter.variable} ${lora.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body>
-        <ContactModalProvider>
-          {children}
-          <ContactModal />
-        </ContactModalProvider>
+      <body style={{ fontFamily: "var(--ff-inter, sans-serif)" }}>
+        {children}
       </body>
     </html>
   );

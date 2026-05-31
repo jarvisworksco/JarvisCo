@@ -1,108 +1,155 @@
-import { LogoMark } from "@/components/LogoMark";
-
 const navLinks = [
   { label: "Paslaugos", href: "#paslaugos" },
-  { label: "Procesas", href: "#procesas" },
-  { label: "Kainos", href: "#kainos" },
-  { label: "D.U.K.", href: "#duk" },
+  { label: "Procesas",  href: "#procesas"  },
+  { label: "Darbai",   href: "#darbai"    },
+  { label: "Kainos",   href: "#kainos"    },
+  { label: "D.U.K.",   href: "#duk"       },
+  { label: "Kontaktai",href: "#kontaktai" },
 ];
 
 export default function Footer() {
   return (
     <footer
-      className="pt-14 pb-9 px-6 md:px-8"
       style={{
-        background: "var(--jco-warm-dark)",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
+        paddingTop: "clamp(3rem, 6vw, 5rem)",
+        paddingBottom: "2rem",
+        background: "var(--surface)",
+        borderTop: "1px solid var(--line)",
       }}
     >
-      <div className="max-w-[1100px] mx-auto">
+      <div className="container">
         {/* Top row */}
-        <div className="flex flex-col md:flex-row justify-between gap-12 mb-12">
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1.5fr 1fr 1fr 1.3fr",
+          gap: "3rem",
+          marginBottom: "3rem",
+          paddingBottom: "3rem",
+          borderBottom: "1px solid var(--line)",
+        }}
+          className="footer-grid"
+        >
           {/* Brand */}
-          <div className="flex-shrink-0 max-w-[220px]">
-            <div className="flex items-center gap-2 mb-3">
-              <LogoMark size={32} />
-              <span className="text-[15px] font-bold text-white">
-                JarvisCo
+          <div>
+            <a href="#" style={{ display: "inline-block", marginBottom: "0.875rem" }}>
+              <span style={{
+                fontFamily: "var(--ff-lora, serif)",
+                fontWeight: 700, fontSize: "1.375rem",
+                color: "var(--ink)", letterSpacing: "-0.03em",
+              }}>
+                Jarvis<span style={{ color: "var(--accent)" }}>Co</span>
               </span>
-            </div>
-            <p
-              className="text-[13px] leading-[1.6]"
-              style={{ color: "rgba(255,255,255,0.4)" }}
-            >
-              Svetainės Lietuvos namų paslaugų verslui. Aiški kaina, švarus
-              darbas, ilgalaikė priežiūra.
+            </a>
+            <p style={{
+              fontSize: "0.875rem", color: "var(--ink-muted)",
+              lineHeight: 1.65, marginBottom: "1.5rem", maxWidth: "24ch",
+            }}>
+              Svetainės ir SEO Lietuvos namų paslaugų verslui. Aiški kaina, švarus darbas.
             </p>
+
+            {/* Socials */}
+            <div style={{ display: "flex", gap: "0.625rem" }}>
+              <a
+                href="https://www.facebook.com/profile.php?id=61562921045681"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-btn"
+                aria-label="JarvisCo Facebook"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+              <a
+                href="https://www.instagram.com/jarvisworks_co/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-btn"
+                aria-label="JarvisCo Instagram"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                </svg>
+              </a>
+            </div>
           </div>
 
-          {/* Links */}
-          <div className="flex gap-14 flex-wrap">
-            <div>
-              <h4
-                className="text-[12px] font-semibold tracking-[0.05em] mb-3.5"
-                style={{ color: "rgba(255,255,255,0.85)" }}
-              >
-                MENIU
-              </h4>
-              {navLinks.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  className="footer-link block text-[14px] mb-2.5"
-                >
-                  {l.label}
-                </a>
-              ))}
-            </div>
-            <div>
-              <h4
-                className="text-[12px] font-semibold tracking-[0.05em] mb-3.5"
-                style={{ color: "rgba(255,255,255,0.85)" }}
-              >
-                KONTAKTAI
-              </h4>
-              <a
-                href="mailto:jarvisworks.co@gmail.com"
-                className="footer-link block text-[14px] mb-2.5"
-              >
-                jarvisworks.co@gmail.com
-              </a>
-              <a
-                href="tel:+37067699395"
-                className="footer-link block text-[14px] mb-2.5"
-              >
-                +370 676 99395
-              </a>
-              <span
-                className="block text-[14px]"
-                style={{ color: "rgba(255,255,255,0.4)" }}
-              >
-                Lietuva
-              </span>
-            </div>
+          {/* Nav links */}
+          <div>
+            <h4 style={{
+              fontSize: "0.6875rem", fontWeight: 700, letterSpacing: "0.1em",
+              textTransform: "uppercase", color: "var(--ink-soft)",
+              marginBottom: "1.125rem",
+            }}>
+              Meniu
+            </h4>
+            {navLinks.map((l) => (
+              <a key={l.href} href={l.href} className="footer-link">{l.label}</a>
+            ))}
+          </div>
+
+          {/* Services */}
+          <div>
+            <h4 style={{
+              fontSize: "0.6875rem", fontWeight: 700, letterSpacing: "0.1em",
+              textTransform: "uppercase", color: "var(--ink-soft)",
+              marginBottom: "1.125rem",
+            }}>
+              Paslaugos
+            </h4>
+            {["Svetainių kūrimas", "SEO optimizacija", "Google verslo profilis", "Svetainės priežiūra"].map((s) => (
+              <a key={s} href="#paslaugos" className="footer-link">{s}</a>
+            ))}
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 style={{
+              fontSize: "0.6875rem", fontWeight: 700, letterSpacing: "0.1em",
+              textTransform: "uppercase", color: "var(--ink-soft)",
+              marginBottom: "1.125rem",
+            }}>
+              Kontaktai
+            </h4>
+            <a href="mailto:jarvisworks.co@gmail.com" className="footer-link">jarvisworks.co@gmail.com</a>
+            <a href="tel:+37067699395" className="footer-link">+370 676 99395</a>
+            <span className="footer-link" style={{ cursor: "default" }}>Kaunas · Visa Lietuva</span>
+
+            <a
+              href="#kontaktai"
+              className="btn btn-primary"
+              style={{ marginTop: "1.25rem", fontSize: "0.875rem", padding: "0.6rem 1.25rem", display: "inline-flex" }}
+            >
+              Pradėti projektą
+            </a>
           </div>
         </div>
 
-        {/* Bottom row */}
-        <div
-          className="flex flex-col sm:flex-row justify-between items-center gap-2 pt-5"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
-        >
-          <span
-            className="text-[13px]"
-            style={{ color: "rgba(255,255,255,0.25)" }}
-          >
+        {/* Bottom bar */}
+        <div style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "0.75rem",
+        }}>
+          <span style={{ fontSize: "0.8125rem", color: "var(--ink-muted)" }}>
             © 2026 JarvisCo · Visos teisės saugomos
           </span>
-          <span
-            className="text-[13px]"
-            style={{ color: "rgba(255,255,255,0.25)" }}
-          >
+          <span style={{ fontSize: "0.8125rem", color: "var(--ink-muted)" }}>
             Sukurta su ♥ Lietuvoje
           </span>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .footer-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 520px) {
+          .footer-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </footer>
   );
 }
