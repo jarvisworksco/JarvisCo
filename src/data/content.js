@@ -287,7 +287,7 @@ export const contact = {
   lead: 'Atsakau per kelias valandas darbo dienomis. Skambinkite, rašykite arba palikite užklausą — kaip Jums patogiau.',
   formTitle: 'Gaukite nemokamą pasiūlymą',
   // Web3Forms: įdėkite savo access key (https://web3forms.com). El. laiškai eis į brand.elPastas.
-  web3formsKey: 'PAKEISK-MANE-web3forms-access-key',
+  web3formsKey: '0f0633c6-ce11-4ca0-b088-962df8b05bbe',
   fields: {
     name: 'Vardas',
     contact: 'Telefonas arba el. paštas',
