@@ -1,0 +1,110 @@
+---
+import { contact, brand } from '@data/content.js';
+import Icon from './Icon.astro';
+
+const { showMessage = true, submitLabel = contact.submit, source = 'svetainė' } = Astro.props;
+---
+<form class="inq" data-inquiry-form>
+  <input type="hidden" name="access_key" value={contact.web3formsKey} />
+  <input type="hidden" name="subject" value={`Nauja užklausa iš jarvisweb.lt (${source})`} />
+  <input type="hidden" name="from_name" value="JarvisCo svetainė" />
+  <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+  <label class="field">
+    <span class="field__label">{contact.fields.name}</span>
+    <input type="text" name="name" required autocomplete="name" placeholder="Jūsų vardas" />
+  </label>
+  <label class="field">
+    <span class="field__label">{contact.fields.contact}</span>
+    <input type="text" name="contact" required placeholder="+370 6xx xxxxx arba el. paštas" />
+  </label>
+  {showMessage && (
+    <label class="field">
+      <span class="field__label">{contact.fields.message}</span>
+      <textarea name="message" rows="4" placeholder="Pvz.: reikia svetainės santechnikos verslui"></textarea>
+    </label>
+  )}
+
+  <button type="submit" class="btn btn--primary btn--block btn--lg" data-submit>
+    {submitLabel}<Icon name="arrow" />
+  </button>
+  <p class="inq__privacy">{contact.privacy}</p>
+  <div class="inq__result" data-result hidden></div>
+</form>
+
+<style>
+  .field { display: block; margin-bottom: 1rem; }
+  .field__label { display: block; font-size: 0.86rem; color: var(--text-soft); margin-bottom: 0.4rem; font-weight: 500; }
+  .field input, .field textarea {
+    width: 100%;
+    background: var(--ink);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-sm);
+    padding: 0.8rem 1rem;
+    color: var(--text);
+    font-size: 1rem;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    resize: vertical;
+  }
+  .field input::placeholder, .field textarea::placeholder { color: #5e6663; }
+  .field input:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--glow);
+  }
+  .hp { position: absolute; left: -9999px; opacity: 0; }
+  .inq__privacy { color: var(--muted); font-size: 0.8rem; margin-top: 0.9rem; text-align: center; }
+  .inq__result {
+    margin-top: 1.1rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: var(--r-sm);
+    font-size: 0.92rem;
+    text-align: center;
+  }
+  .inq__result.is-ok { background: rgba(198,242,78,0.12); border: 1px solid rgba(198,242,78,0.4); color: var(--accent); }
+  .inq__result.is-err { background: rgba(255,95,87,0.1); border: 1px solid rgba(255,95,87,0.4); color: #ff8a82; }
+</style>
+
+<script>
+  const forms = document.querySelectorAll('[data-inquiry-form]');
+  forms.forEach((form) => {
+    if (!(form instanceof HTMLFormElement)) return;
+    const result = form.querySelector('[data-result]');
+    const btn = form.querySelector('[data-submit]');
+    const showMsg = (ok, text) => {
+      if (!(result instanceof HTMLElement)) return;
+      result.hidden = false;
+      result.className = 'inq__result ' + (ok ? 'is-ok' : 'is-err');
+      result.textContent = text;
+    };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      if (data.get('botcheck')) return; // honeypot
+      const key = String(data.get('access_key') || '');
+      if (key.startsWith('PAKEISK')) {
+        showMsg(false, 'Forma dar nesukonfigūruota. Skambinkite +370 676 99395 arba rašykite jarviswork.co@gmail.com');
+        return;
+      }
+      if (btn instanceof HTMLButtonElement) { btn.disabled = true; btn.style.opacity = '0.7'; }
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: data,
+        });
+        const json = await res.json();
+        if (json.success) {
+          form.reset();
+          showMsg(true, 'Ačiū! Gavau Jūsų užklausą ir netrukus susisieksiu.');
+        } else {
+          showMsg(false, 'Nepavyko išsiųsti. Skambinkite +370 676 99395.');
+        }
+      } catch {
+        showMsg(false, 'Nepavyko išsiųsti. Skambinkite +370 676 99395.');
+      } finally {
+        if (btn instanceof HTMLButtonElement) { btn.disabled = false; btn.style.opacity = ''; }
+      }
+    });
+  });
+</script>
