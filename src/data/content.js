@@ -67,12 +67,12 @@ export const services = {
     {
       id: 'svetaine',
       badge: null,
-      pavadinimas: 'Svetainės kūrimas',
+      pavadinimas: 'Svetainė',
       tipas: 'Vienkartinis projektas',
-      kaina: '690',
+      kaina: '500',
       kainaSuffix: '€',
-      kainaPrefix: 'nuo',
-      kainaNote: 'vienkartinis mokestis · be paslėptų kaštų',
+      kainaPrefix: null,
+      kainaNote: 'vienkartinis mokestis + 25 €/mėn palaikymas',
       aprasymas:
         'Individuali, konversijai pritaikyta svetainė, kuri atrodo profesionaliai ir paverčia lankytojus užklausomis.',
       features: [
@@ -83,6 +83,7 @@ export const services = {
         '„Google“ verslo profilio integracija',
         'Kontaktų forma su apsauga nuo šlamšto',
         'Paleidimas per 7–14 dienų',
+        'Priežiūra, atnaujinimai ir hostingas — 25 €/mėn',
       ],
       cta: { label: 'Užsisakyti svetainę', href: '#kontaktai' },
       featured: false,
@@ -92,10 +93,10 @@ export const services = {
       badge: 'Rekomenduojama',
       pavadinimas: 'Augimo prenumerata',
       tipas: 'Mėnesinis mokestis',
-      kaina: '99',
+      kaina: '47',
       kainaSuffix: '€/mėn',
-      kainaPrefix: 'nuo',
-      kainaNote: 'svetainė įskaičiuota · nutraukite bet kada',
+      kainaPrefix: null,
+      kainaNote: 'pirmiems klientams · svetainė įskaičiuota · nutraukite bet kada',
       aprasymas:
         'Viskas viename: svetainė ir automatizacijos, kurios nuolat pritraukia naujų klientų ir augina Jūsų reputaciją.',
       features: [
@@ -245,7 +246,7 @@ export const faq = {
   items: [
     {
       q: 'Kiek kainuoja svetainė?',
-      a: 'Vienkartinis svetainės kūrimas prasideda nuo 690 €. Galutinė kaina priklauso nuo apimties ir funkcijų. Pasirinkę augimo prenumeratą, svetainę gaunate kartu su automatizacijomis už mėnesinį mokestį nuo 99 €.',
+      a: 'Svetainės kūrimas kainuoja 500 € vienkartinai, plius 25 €/mėn priežiūra ir palaikymas. Arba rinkitės augimo prenumeratą — svetainę gaunate kartu su automatizacijomis už 47 €/mėn (speciali kaina pirmiems klientams).',
     },
     {
       q: 'Per kiek laiko sukuriama svetainė?',
