@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { brand, meta } from '@data/content.js';
 import { localBusiness, faqSchema } from '@data/jsonld.js';
+import ChatWidget from '@components/ChatWidget.astro';
 
 const { title, description, ogImage } = Astro.props;
 const pageTitle = title || meta.title;
@@ -62,6 +63,7 @@ const fontsUrl =
     <a href="#main" class="skip-link">Pereiti prie turinio</a>
     <div class="noise" aria-hidden="true"></div>
     <slot />
+    <ChatWidget />
     <script src="../scripts/animations.js"></script>
   </body>
 </html>
