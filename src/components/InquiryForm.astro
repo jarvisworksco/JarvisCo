@@ -66,6 +66,68 @@ const { showMessage = true, submitLabel = contact.submit, source = 'svetainė' }
 </style>
 
 <script>
+  // Laukia, kol DOM'e atsiras elementas (chat widget'as mounto'jasi asinchroniškai).
+  function waitForEl(selector, timeout = 5000) {
+    return new Promise((resolve) => {
+      const existing = document.querySelector(selector);
+      if (existing) return resolve(existing);
+      const start = Date.now();
+      const iv = setInterval(() => {
+        const el = document.querySelector(selector);
+        if (el) {
+          clearInterval(iv);
+          resolve(el);
+        } else if (Date.now() - start > timeout) {
+          clearInterval(iv);
+          resolve(null);
+        }
+      }, 80);
+    });
+  }
+
+  // Iš formos laukų sudaro pirmą žinutę pokalbiui (vartotojo vardu).
+  function buildChatMessage(data) {
+    const name = String(data.get('name') || '').trim();
+    const contact = String(data.get('contact') || '').trim();
+    const message = String(data.get('message') || '').trim();
+    const parts = [name ? `Labas! Mano vardas – ${name}.` : 'Labas!'];
+    if (contact) parts.push(`Susisiekti su manimi galima: ${contact}.`);
+    if (message) parts.push(`Apie projektą: ${message}`);
+    parts.push('Norėčiau gauti pasiūlymą ir, jei tinka, suderinti nemokamą konsultaciją.');
+    return parts.join(' ');
+  }
+
+  // Atidaro pokalbio langą ir nusiunčia agentui pirmą žinutę.
+  async function handoffToChat(text) {
+    const toggle = await waitForEl('.chat-window-toggle');
+    if (!(toggle instanceof HTMLElement)) return false;
+    // Atidarom langą, jei jis dar uždarytas (kai atidarytas — yra įvesties laukelis).
+    if (!document.querySelector('.chat-inputs textarea')) {
+      toggle.click();
+    }
+    const textarea = await waitForEl('.chat-inputs textarea');
+    if (!(textarea instanceof HTMLTextAreaElement)) return false;
+    // Reikšmę nustatom per native setter'į, kad Vue v-model ją pamatytų.
+    const setValue = Object.getOwnPropertyDescriptor(
+      HTMLTextAreaElement.prototype,
+      'value',
+    )?.set;
+    if (setValue) setValue.call(textarea, text);
+    else textarea.value = text;
+    textarea.dispatchEvent(new Event('input', { bubbles: true }));
+    textarea.focus();
+    await new Promise((r) => setTimeout(r, 80));
+    const sendBtn = document.querySelector('.chat-input-send-button');
+    if (sendBtn instanceof HTMLElement) {
+      sendBtn.click();
+    } else {
+      textarea.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }),
+      );
+    }
+    return true;
+  }
+
   const forms = document.querySelectorAll('[data-inquiry-form]');
   forms.forEach((form) => {
     if (!(form instanceof HTMLFormElement)) return;
@@ -87,6 +149,17 @@ const { showMessage = true, submitLabel = contact.submit, source = 'svetainė' }
         return;
       }
       if (btn instanceof HTMLButtonElement) { btn.disabled = true; btn.style.opacity = '0.7'; }
+
+      // 1) Pagrindinis kelias: perduodam pokalbiui ir nusiunčiam duomenis agentui.
+      const opened = await handoffToChat(buildChatMessage(data));
+      showMsg(
+        true,
+        opened
+          ? 'Ačiū! Tęskime pokalbyje – langas atsidarė apačioje dešinėje 👇'
+          : 'Ačiū! Gavau Jūsų užklausą ir netrukus susisieksiu.',
+      );
+
+      // 2) Atsarginė kopija el. paštu (fone — neprarandam užklausos, jei pokalbis nebaigiamas).
       try {
         const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
@@ -94,14 +167,9 @@ const { showMessage = true, submitLabel = contact.submit, source = 'svetainė' }
           body: data,
         });
         const json = await res.json();
-        if (json.success) {
-          form.reset();
-          showMsg(true, 'Ačiū! Gavau Jūsų užklausą ir netrukus susisieksiu.');
-        } else {
-          showMsg(false, 'Nepavyko išsiųsti. Skambinkite +370 676 99395.');
-        }
+        if (json.success) form.reset();
       } catch {
-        showMsg(false, 'Nepavyko išsiųsti. Skambinkite +370 676 99395.');
+        // El. laiškas nepavyko — ne kritiška, pokalbis jau atidarytas.
       } finally {
         if (btn instanceof HTMLButtonElement) { btn.disabled = false; btn.style.opacity = ''; }
       }
