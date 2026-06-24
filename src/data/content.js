@@ -74,7 +74,7 @@ export const services = {
       kaina: '500',
       kainaSuffix: '€',
       kainaPrefix: null,
-      kainaNote: 'vienkartinis mokestis + 25 €/mėn palaikymas',
+      kainaNote: 'vienkartinis mokestis · be mėnesinių · be paslėptų kaštų',
       aprasymas:
         'Individuali, konversijai pritaikyta svetainė, kuri atrodo profesionaliai ir paverčia lankytojus užklausomis.',
       features: [
@@ -85,7 +85,6 @@ export const services = {
         '„Google“ verslo profilio integracija',
         'Kontaktų forma su apsauga nuo šlamšto',
         'Paleidimas per 7–14 dienų',
-        'Priežiūra, atnaujinimai ir hostingas — 25 €/mėn',
       ],
       cta: { label: 'Užsisakyti svetainę', href: '#kontaktai' },
       featured: false,
@@ -248,7 +247,7 @@ export const faq = {
   items: [
     {
       q: 'Kiek kainuoja svetainė?',
-      a: 'Svetainės kūrimas kainuoja 500 € vienkartinai, plius 25 €/mėn priežiūra ir palaikymas. Arba rinkitės augimo prenumeratą — svetainę gaunate kartu su automatizacijomis už 47 €/mėn (speciali kaina pirmiems klientams).',
+      a: 'Svetainės kūrimas kainuoja 500 € — vienkartinis mokestis, jokio mėnesinio mokesčio. Arba rinkitės augimo prenumeratą — svetainę gaunate kartu su automatizacijomis už 47 €/mėn (speciali kaina pirmiems klientams).',
     },
     {
       q: 'Per kiek laiko sukuriama svetainė?',
