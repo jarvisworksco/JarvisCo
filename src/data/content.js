@@ -293,7 +293,8 @@ export const contact = {
   web3formsKey: '0f0633c6-ce11-4ca0-b088-962df8b05bbe',
   fields: {
     name: 'Vardas',
-    contact: 'Telefonas arba el. paštas',
+    phone: 'Telefono numeris',
+    email: 'El. paštas',
     message: 'Trumpai apie projektą',
   },
   submit: 'Siųsti užklausą',

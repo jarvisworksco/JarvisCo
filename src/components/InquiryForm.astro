@@ -15,8 +15,29 @@ const { showMessage = true, submitLabel = contact.submit, source = 'svetainė' }
     <input type="text" name="name" required autocomplete="name" placeholder="Jūsų vardas" />
   </label>
   <label class="field">
-    <span class="field__label">{contact.fields.contact}</span>
-    <input type="text" name="contact" required placeholder="+370 6xx xxxxx arba el. paštas" />
+    <span class="field__label">{contact.fields.phone}</span>
+    <input
+      type="tel"
+      name="phone"
+      required
+      inputmode="tel"
+      autocomplete="tel"
+      pattern="(\+370|370|8)[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{3}"
+      title="Įveskite teisingą telefono numerį, pvz. +370 612 34 567"
+      placeholder="+370 6xx xx xxx"
+    />
+  </label>
+  <label class="field">
+    <span class="field__label">{contact.fields.email}</span>
+    <input
+      type="email"
+      name="email"
+      required
+      autocomplete="email"
+      pattern="[^@\s]+@[^@\s]+\.[^@\s]{2,}"
+      title="Įveskite teisingą el. pašto adresą, pvz. vardas@pastas.lt"
+      placeholder="vardas@pastas.lt"
+    />
   </label>
   {showMessage && (
     <label class="field">
@@ -85,13 +106,26 @@ const { showMessage = true, submitLabel = contact.submit, source = 'svetainė' }
     });
   }
 
+  // Tikriname, kad būtų įvestas veikiantis (teisingo formato) telefonas ir el. paštas.
+  function isValidLtPhone(v) {
+    const n = v.replace(/[\s\-()]/g, '');
+    return /^(\+370|370|8)\d{8}$/.test(n);
+  }
+  function isValidEmail(v) {
+    return /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(v.trim());
+  }
+
   // Iš formos laukų sudaro pirmą žinutę pokalbiui (vartotojo vardu).
   function buildChatMessage(data) {
     const name = String(data.get('name') || '').trim();
-    const contact = String(data.get('contact') || '').trim();
+    const phone = String(data.get('phone') || '').trim();
+    const email = String(data.get('email') || '').trim();
     const message = String(data.get('message') || '').trim();
     const parts = [name ? `Labas! Mano vardas – ${name}.` : 'Labas!'];
-    if (contact) parts.push(`Susisiekti su manimi galima: ${contact}.`);
+    const contacts = [];
+    if (phone) contacts.push(`tel. ${phone}`);
+    if (email) contacts.push(`el. paštas ${email}`);
+    if (contacts.length) parts.push(`Susisiekti su manimi galima: ${contacts.join(', ')}.`);
     if (message) parts.push(`Apie projektą: ${message}`);
     parts.push('Norėčiau gauti pasiūlymą ir, jei tinka, suderinti nemokamą konsultaciją.');
     return parts.join(' ');
@@ -148,6 +182,21 @@ const { showMessage = true, submitLabel = contact.submit, source = 'svetainė' }
         showMsg(false, 'Forma dar nesukonfigūruota. Skambinkite +370 676 99395 arba rašykite jarviswork.co@gmail.com');
         return;
       }
+
+      // Privaloma įvesti veikiantį telefoną IR el. paštą (be giberish).
+      const phoneInput = form.querySelector('[name="phone"]');
+      const emailInput = form.querySelector('[name="email"]');
+      if (!isValidLtPhone(String(data.get('phone') || ''))) {
+        showMsg(false, 'Įveskite teisingą telefono numerį, pvz. +370 612 34 567.');
+        if (phoneInput instanceof HTMLElement) phoneInput.focus();
+        return;
+      }
+      if (!isValidEmail(String(data.get('email') || ''))) {
+        showMsg(false, 'Įveskite teisingą el. pašto adresą, pvz. vardas@pastas.lt.');
+        if (emailInput instanceof HTMLElement) emailInput.focus();
+        return;
+      }
+
       if (btn instanceof HTMLButtonElement) { btn.disabled = true; btn.style.opacity = '0.7'; }
 
       // 1) Pagrindinis kelias: perduodam pokalbiui ir nusiunčiam duomenis agentui.
