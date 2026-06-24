@@ -13,6 +13,14 @@ import Icon from './Icon.astro';
         <a href={brand.atsiliepimoLink} target="_blank" rel="noopener" class="footer__review">
           <Icon name="star" />{footer.reviewCta}
         </a>
+        <div class="footer__social">
+          <a href={brand.facebook} target="_blank" rel="noopener" aria-label="Facebook">
+            <Icon name="facebook" />
+          </a>
+          <a href={brand.instagram} target="_blank" rel="noopener" aria-label="Instagram">
+            <Icon name="instagram" />
+          </a>
+        </div>
       </div>
 
       <nav class="footer__nav" aria-label="Poraštės navigacija">
@@ -57,6 +65,18 @@ import Icon from './Icon.astro';
   }
   .footer__review :global(svg) { color: var(--accent); }
   .footer__review:hover { border-color: var(--accent); color: var(--text); }
+
+  .footer__social { display: flex; gap: 0.7rem; margin-top: 1.25rem; }
+  .footer__social a {
+    display: grid; place-items: center;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    color: var(--text-soft);
+    transition: border-color 0.3s, color 0.3s, transform 0.3s;
+  }
+  .footer__social a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+  .footer__social :global(svg) { font-size: 1.15rem; }
 
   .footer__nav, .footer__contact { display: flex; flex-direction: column; gap: 0.7rem; }
   .footer__nav-title {

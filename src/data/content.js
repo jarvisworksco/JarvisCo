@@ -19,6 +19,8 @@ export const brand = {
   geo: { lat: 55.1736, lng: 23.8833 },
   gbp: 'https://www.google.com/maps/place/JarvisCo/@55.1680551,22.5645915,8z/data=!4m6!3m5!1s0x46e725ccf8f540d9:0x58d0ee5e75771802!8m2!3d55.1736006!4d23.8832615!16s%2Fg%2F11npf5rgkj',
   atsiliepimoLink: 'https://g.page/r/CQIYd3Ve7tBYEBM/review',
+  facebook: 'https://www.facebook.com/profile.php?id=61562921045681',
+  instagram: 'https://www.instagram.com/jarvisworks_co/',
 };
 
 export const meta = {
