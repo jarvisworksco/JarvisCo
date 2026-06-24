@@ -15,6 +15,9 @@ const webhookUrl =
 <script type="module" define:vars={{ webhookUrl }}>
   import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat@1.25.0/dist/chat.bundle.es.js';
 
+  // Kiekvieną kartą užkrovus puslapį pradedam pokalbį iš naujo (be senos sesijos).
+  localStorage.removeItem('sessionId');
+
   createChat({
     webhookUrl,
     mode: 'window',
@@ -178,6 +181,14 @@ const webhookUrl =
     .chat-window {
       right: 0 !important;
       bottom: 0 !important;
+    }
+  }
+
+  /* Mobiliajame burbulą (ir langą) pakeliame virš apatinės CTA juostos (dock,
+     rodomos ≤720px, ~76px aukščio), kad nesidengtų su mygtukais. */
+  @media (max-width: 720px) {
+    :root:root {
+      --chat--window--bottom: calc(88px + env(safe-area-inset-bottom, 0px));
     }
   }
 </style>
